@@ -2,7 +2,7 @@
 
 **Alumno:** Matias Ortiz Billordo
 
-**Repositorio:**: (https://github.com/Matienli/sala-de-juegos-matias-ortiz)
+**Repositorio:** (https://github.com/Matienli/sala-de-juegos-matias-ortiz)
 
 Aplicación Angular con las pantallas del **Sprint 1**: Inicio, Login, Registro y Quién soy.
 
