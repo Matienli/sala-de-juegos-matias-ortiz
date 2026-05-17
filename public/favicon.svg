@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sala de juegos">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8133" />
+      <stop offset="100%" stop-color="#ff3c38" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)" />
+  <rect x="14" y="22" width="36" height="22" rx="6" fill="#fff5eb" />
+  <circle cx="24" cy="33" r="4" fill="#ff3c38" />
+  <circle cx="40" cy="33" r="4" fill="#ff3c38" />
+  <path fill="#fff5eb" d="M28 18h8v8h-8z" />
+  <path fill="#ffc099" d="M26 16h12v4H26z" />
+</svg>

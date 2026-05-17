@@ -1,0 +1,90 @@
+/* Tipografía global (similar al repo de clase con Inter) */
+:root {
+  color-scheme: light;
+  --page-bg: #ffc099;
+  --brand-header: #ff8133;
+  --brand-accent: #ff3c38;
+  --brand-accent-hover: #e63532;
+  --brand-accent-rgb: 255, 60, 56;
+
+  --bs-primary: var(--brand-accent);
+  --bs-primary-rgb: var(--brand-accent-rgb);
+  --bs-link-color: var(--brand-accent);
+  --bs-link-hover-color: var(--brand-accent-hover);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--brand-accent);
+  --bs-btn-border-color: var(--brand-accent);
+  --bs-btn-hover-bg: var(--brand-accent-hover);
+  --bs-btn-hover-border-color: var(--brand-accent-hover);
+  --bs-btn-active-bg: #cc302d;
+  --bs-btn-active-border-color: #cc302d;
+  --bs-btn-focus-shadow-rgb: var(--brand-accent-rgb);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--brand-accent);
+  --bs-btn-border-color: var(--brand-accent);
+  --bs-btn-hover-bg: var(--brand-accent);
+  --bs-btn-hover-border-color: var(--brand-accent);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: var(--brand-accent-hover);
+  --bs-btn-active-border-color: var(--brand-accent-hover);
+  --bs-btn-active-color: #fff;
+  --bs-btn-focus-shadow-rgb: var(--brand-accent-rgb);
+}
+
+/* Fondo blanco del formulario de login/registro */
+.auth-form-card {
+  background-color: var(--brand-header);
+  color: #fff;
+}
+
+.auth-form-card .form-label {
+  color: #fff;
+}
+
+.auth-form-card .form-control {
+  background-color: #d1d1d1;
+  border-color: #bdbdbd;
+}
+
+.auth-form-card .form-control:focus {
+  background-color: #d1d1d1;
+  border-color: #a8a8a8;
+  box-shadow: 0 0 0 0.25rem rgba(209, 209, 209, 0.55);
+}
+
+.auth-form-card .btn-link {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: rgba(255, 255, 255, 0.85);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background-color: var(--page-bg);
+  min-height: 100vh;
+}
+
+.modal-content {
+  background-color: var(--page-bg);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.modal-header,
+.modal-footer {
+  background-color: var(--page-bg);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

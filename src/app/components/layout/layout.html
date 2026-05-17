@@ -1,0 +1,52 @@
+<header class="navbar navbar-expand-lg navbar-dark site-header border-bottom shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" routerLink="/">
+      <span class="brand-icon d-inline-flex rounded-2 align-items-center justify-content-center">
+        <i class="bi bi-joystick"></i>
+      </span>
+      Sala de juegos
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNav"
+      aria-controls="mainNav"
+      aria-expanded="false"
+      aria-label="Abrir menú"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <nav class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto gap-2 align-items-lg-center nav-actions">
+        <li class="nav-item">
+          <a
+            class="nav-link btn btn-sm nav-btn"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-sm nav-btn" routerLink="/login" routerLinkActive="active">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-sm nav-btn" routerLink="/registro" routerLinkActive="active">Registro</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-sm nav-btn" routerLink="/quien-soy" routerLinkActive="active">Quién soy</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="container py-4 page-shell">
+  <router-outlet />
+</main>
+
+<footer class="site-footer border-top mt-auto py-3">
+  <div class="container small">
+    <span>Programación IV — Sala de juegos</span>
+  </div>
+</footer>

@@ -1,0 +1,26 @@
+@if (open()) {
+  <div class="modal-backdrop fade show"></div>
+  <div class="modal d-block fade show" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="messageModalTitle">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title h5 d-flex align-items-center gap-2" id="messageModalTitle">
+            @if (variant() === 'info') {
+              <i class="bi bi-info-circle-fill text-info"></i>
+            } @else {
+              <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+            }
+            {{ title() }}
+          </h2>
+          <button type="button" class="btn-close" aria-label="Cerrar" (click)="close()"></button>
+        </div>
+        <div class="modal-body pt-2">
+          <p class="mb-0">{{ body() }}</p>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-primary" (click)="close()">Entendido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

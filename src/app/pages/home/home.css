@@ -1,0 +1,40 @@
+.page-enter {
+  animation: fadeInUp 0.5s ease both;
+}
+
+.tracking {
+  letter-spacing: 0.08em;
+}
+
+.hero-card {
+  background: linear-gradient(145deg, #ff8c42 0%, #e8742f 55%, #d96524 100%);
+  color: #fff;
+  animation: floaty 6s ease-in-out infinite;
+}
+
+.hero-card .game-list {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.hero-card .game-list i {
+  color: #fff !important;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.maintenance-msg {
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  line-height: 1.4;
+}
+
+.game-list li + li {
+  margin-top: 0.5rem;
+}

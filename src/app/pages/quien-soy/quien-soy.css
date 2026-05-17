@@ -1,0 +1,61 @@
+.page-enter {
+  animation: fadeInUp 0.45s ease both;
+}
+
+.profile-card img {
+  object-fit: cover;
+}
+
+.profile-card .card-body {
+  background-color: var(--brand-header);
+  color: #fff;
+}
+
+.profile-card .text-body-secondary {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.profile-card .btn-github {
+  --bs-btn-color: #fff;
+  --bs-btn-border-color: #fff;
+  --bs-btn-hover-bg: rgba(255, 255, 255, 0.15);
+  --bs-btn-hover-border-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: rgba(255, 255, 255, 0.25);
+  --bs-btn-active-border-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+.tracking {
+  letter-spacing: 0.08em;
+}
+
+.github-info-card,
+.own-game-card {
+  background-color: var(--brand-header);
+  color: #fff;
+}
+
+.github-info-card dt {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.github-info-card dd,
+.github-info-card a {
+  color: #fff;
+}
+
+.github-info-card a:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.own-game-card .text-body-secondary {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.own-game-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}

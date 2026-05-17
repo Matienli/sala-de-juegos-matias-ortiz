@@ -1,0 +1,21 @@
+.modal {
+  z-index: 1055;
+}
+
+.modal-backdrop {
+  z-index: 1050;
+}
+
+.modal-content {
+  background-color: var(--page-bg);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.modal-header,
+.modal-footer {
+  background-color: var(--page-bg);
+}
+
+.modal-body {
+  background-color: var(--page-bg);
+}

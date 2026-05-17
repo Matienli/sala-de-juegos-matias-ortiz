@@ -1,0 +1,74 @@
+<section class="page-enter col-xl-8 mx-auto">
+  <h1 class="h3 fw-bold mb-1">Crear cuenta</h1>
+  <p class="text-body-secondary mb-4">Completá con tus datos.</p>
+
+  <form class="card auth-form-card shadow-sm border-0" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="card-body p-4">
+      <div class="mb-3">
+        <label class="form-label" for="regName">Nombre visible</label>
+        <input
+          id="regName"
+          type="text"
+          class="form-control form-control-lg"
+          formControlName="displayName"
+          autocomplete="name"
+          placeholder="Cómo te mostramos en la sala"
+        />
+        @if (form.controls.displayName.touched && form.controls.displayName.invalid) {
+          <div class="invalid-feedback d-block">Ingresá al menos 2 caracteres.</div>
+        }
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="regEmail">Correo</label>
+        <input
+          id="regEmail"
+          type="email"
+          class="form-control form-control-lg"
+          formControlName="email"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <div class="invalid-feedback d-block">Correo no válido.</div>
+        }
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="regPassword">Contraseña</label>
+        <input
+          id="regPassword"
+          type="password"
+          class="form-control form-control-lg"
+          formControlName="password"
+          autocomplete="new-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <div class="invalid-feedback d-block">Mínimo 6 caracteres.</div>
+        }
+      </div>
+      <div class="mb-4">
+        <label class="form-label" for="regConfirm">Repetir contraseña</label>
+        <input
+          id="regConfirm"
+          type="password"
+          class="form-control form-control-lg"
+          formControlName="confirmPassword"
+          autocomplete="new-password"
+        />
+        @if (form.touched && form.hasError('passwordsMismatch')) {
+          <div class="invalid-feedback d-block">Las contraseñas no coinciden.</div>
+        }
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary btn-lg">Registrarme</button>
+        <a class="btn btn-link" routerLink="/login">Ya tengo cuenta</a>
+      </div>
+    </div>
+  </form>
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  [variant]="modalVariant()"
+  (closed)="closeModal()"
+/>

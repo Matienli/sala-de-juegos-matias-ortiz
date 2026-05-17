@@ -1,0 +1,94 @@
+<section class="page-enter">
+  <header class="mb-4">
+    <p class="text-uppercase text-secondary small fw-semibold mb-2 tracking">Presentación</p>
+    <h1 class="h2 fw-bold mb-2">Quién soy</h1>
+    <p class="text-body-secondary mb-0">
+      Datos públicos obtenidos desde la API de GitHub (<code>GET /users/:username</code>).
+    </p>
+  </header>
+
+  @if (loading()) {
+    <div class="d-flex align-items-center gap-3 p-4 card border-0 shadow-sm">
+      <div class="spinner-border text-primary" role="status" aria-label="Cargando"></div>
+      <span class="text-body-secondary">Trayendo tu perfil…</span>
+    </div>
+  } @else if (user(); as u) {
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm overflow-hidden profile-card">
+          <div class="ratio ratio-1x1 bg-body-secondary">
+            <img [src]="u.avatar_url" [alt]="'Avatar de ' + (u.name ?? u.login)" class="object-fit-cover" />
+          </div>
+          <div class="card-body">
+            <h2 class="h4 mb-1">{{ u.name ?? u.login }}</h2>
+            <p class="text-body-secondary mb-2">&#64;{{ u.login }}</p>
+            <a class="btn btn-outline-light btn-github w-100" [href]="u.html_url" target="_blank" rel="noopener noreferrer">
+              <i class="bi bi-github me-2"></i>Ver perfil en GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm github-info-card">
+          <div class="card-body p-4">
+            <h3 class="h5 fw-semibold mb-3">Sobre mí (GitHub)</h3>
+            <p class="mb-3">{{ u.bio ?? 'Sin biografía pública en GitHub.' }}</p>
+            <dl class="row mb-0 small">
+              @if (u.company) {
+                <dt class="col-sm-4 text-body-secondary">Empresa</dt>
+                <dd class="col-sm-8">{{ u.company }}</dd>
+              }
+              @if (u.location) {
+                <dt class="col-sm-4 text-body-secondary">Ubicación</dt>
+                <dd class="col-sm-8">{{ u.location }}</dd>
+              }
+              @if (u.blog) {
+                <dt class="col-sm-4 text-body-secondary">Web</dt>
+                <dd class="col-sm-8">
+                  <a [href]="u.blog.startsWith('http') ? u.blog : 'https://' + u.blog" target="_blank" rel="noopener">{{ u.blog }}</a>
+                </dd>
+              }
+              <dt class="col-sm-4 text-body-secondary">Repos públicos</dt>
+              <dd class="col-sm-8">{{ u.public_repos }}</dd>
+              <dt class="col-sm-4 text-body-secondary">Seguidores / siguiendo</dt>
+              <dd class="col-sm-8">{{ u.followers }} / {{ u.following }}</dd>
+              <dt class="col-sm-4 text-body-secondary">Cuenta creada</dt>
+              <dd class="col-sm-8">{{ u.created_at | date: 'longDate' }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-1">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm own-game-card">
+          <div class="card-body p-4">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+              <span class="own-game-icon d-inline-flex rounded-3 align-items-center justify-content-center">
+                <i class="bi bi-stars"></i>
+              </span>
+              <h3 class="h5 fw-semibold mb-0">Mi juego propio: {{ ownGame.name }}</h3>
+            </div>
+            <h4 class="h6 text-body-secondary text-uppercase tracking mb-2">Por qué lo elegí</h4>
+            <p class="mb-4">{{ ownGame.whyChosen }}</p>
+            <h4 class="h6 text-body-secondary text-uppercase tracking mb-2">Cómo se juega</h4>
+            <ol class="mb-0 ps-3">
+              @for (step of ownGame.howToPlay; track $index) {
+                <li class="mb-2">{{ step }}</li>
+              }
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  [variant]="modalVariant()"
+  (closed)="closeModal()"
+/>

@@ -1,0 +1,48 @@
+﻿<section class="page-enter col-xl-8 mx-auto">
+  <h1 class="h3 fw-bold mb-1">Iniciar sesión</h1>
+  <p class="text-body-secondary mb-4">Accedé con tu cuenta.</p>
+
+  <form class="card auth-form-card shadow-sm border-0" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="card-body p-4">
+      <div class="mb-3">
+        <label class="form-label" for="loginEmail">Correo</label>
+        <input
+          id="loginEmail"
+          type="email"
+          class="form-control form-control-lg"
+          formControlName="email"
+          autocomplete="username"
+          placeholder="vos@ejemplo.com"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <div class="invalid-feedback d-block">Ingresá un correo válido.</div>
+        }
+      </div>
+      <div class="mb-4">
+        <label class="form-label" for="loginPassword">Contraseña</label>
+        <input
+          id="loginPassword"
+          type="password"
+          class="form-control form-control-lg"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <div class="invalid-feedback d-block">La contraseña debe tener al menos 6 caracteres.</div>
+        }
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
+        <a class="btn btn-link" routerLink="/registro">¿No tenés cuenta? Registrate</a>
+      </div>
+    </div>
+  </form>
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  [variant]="modalVariant()"
+  (closed)="closeModal()"
+/>
