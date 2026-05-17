@@ -1,6 +1,6 @@
 # Sala de juegos — Programación IV
 
-**Alumno/a:** Matias Ortiz Billordo
+**Alumno:** Matias Ortiz Billordo
 
 Aplicación Angular con las pantallas del **Sprint 1**: Inicio, Login, Registro y Quién soy.
 
