@@ -13,8 +13,8 @@ Aplicación Angular con las pantallas del **Sprint 1**: Inicio, Login, Registro 
 ## Sprint 1
 
 - Proyecto Angular con layout y rutas (`/`, `/login`, `/registro`, `/quien-soy`).
-- Navegación libre entre pantallas (sin guards).
-- **Quién soy:** perfil desde `https://api.github.com/users/:username` (configurar `githubUsername` en `environment`).
+- Navegación libre entre pantallas.
+- **Quién soy:** perfil desde `https://api.github.com/users/:username`.
 - Explicación del **juego propio** en Quién soy (`environment.ownGame`).
 - Favicon propio en `public/favicon.svg`.
 - Deploy en **Vercel** (`vercel.json`).
