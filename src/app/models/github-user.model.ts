@@ -1,4 +1,3 @@
-/** Respuesta parcial de https://api.github.com/users/:username */
 export interface GitHubUser {
   login: string;
   id: number;

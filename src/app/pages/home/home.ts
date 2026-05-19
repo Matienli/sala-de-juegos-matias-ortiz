@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +9,11 @@ import { RouterLink } from '@angular/router';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {}
+export class Home {
+  readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
+  cerrarSesion(): void {
+    void this.auth.logout().then(() => this.router.navigate(['/']));
+  }
+}

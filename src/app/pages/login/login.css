@@ -1,3 +1,37 @@
 .page-enter {
   animation: fadeInUp 0.45s ease both;
 }
+
+.quick-login-card {
+  background-color: #ff8133;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.quick-login-card h2 {
+  color: #fff;
+}
+
+.quick-login-card__btn {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 500;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.quick-login-card__btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.28);
+  border-color: #fff;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.quick-login-card__btn:disabled {
+  opacity: 0.65;
+  color: rgba(255, 255, 255, 0.8);
+}

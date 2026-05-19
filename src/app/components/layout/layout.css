@@ -55,3 +55,17 @@
 .page-shell {
   min-height: calc(100vh - 10rem);
 }
+
+.session-user {
+  color: #fff !important;
+}
+
+.nav-logout {
+  border-color: rgba(255, 255, 255, 0.75);
+  color: #fff;
+}
+
+.nav-logout:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}

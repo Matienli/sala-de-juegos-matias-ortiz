@@ -1,31 +1,132 @@
 <section class="page-enter">
-  <div class="row align-items-center g-4 py-lg-3">
+  <div class="row align-items-start g-4 py-lg-3">
     <div class="col-lg-7">
       <p class="text-uppercase text-secondary small fw-semibold mb-2 tracking">Bienvenida / Home</p>
       <h1 class="display-5 fw-bold mb-3">Sala de juegos</h1>
-      <p class="lead text-body-secondary mb-4">Medí reflejos y memoria con juegos simples.</p>
-      <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-primary btn-lg" routerLink="/login">
-          <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar
-        </a>
-        <a class="btn btn-outline-secondary btn-lg" routerLink="/registro">
-          <i class="bi bi-person-plus me-2"></i>Crear cuenta
-        </a>
-        <a class="btn btn-outline-primary btn-lg" routerLink="/quien-soy">
-          <i class="bi bi-person-badge me-2"></i>Quién soy
-        </a>
-      </div>
+      @if (auth.isLoggedIn()) {
+        <p class="lead text-body-secondary mb-4">
+          Desde acá accedés a los juegos y listados.
+        </p>
+      } @else {
+        <p class="lead text-body-secondary mb-4">
+          Iniciá sesión o registrate para ver los juegos y los listados.
+        </p>
+      }
+
+      @if (!auth.isLoggedIn()) {
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <a class="btn btn-primary btn-lg" routerLink="/login">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
+          </a>
+          <a class="btn btn-outline-secondary btn-lg" routerLink="/registro">
+            <i class="bi bi-person-plus me-2"></i>Registrarme
+          </a>
+          <a class="btn btn-outline-primary btn-lg" routerLink="/quien-soy">
+            <i class="bi bi-person-badge me-2"></i>Quién soy
+          </a>
+        </div>
+      } @else {
+        <div class="card border-0 shadow-sm mb-4 session-banner">
+          <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <p class="text-uppercase text-secondary small fw-semibold mb-1 tracking">Sesión activa</p>
+              <p class="mb-0 fs-5 fw-semibold">
+                <i class="bi bi-person-circle me-2 text-primary"></i>{{ auth.user()?.username }}
+              </p>
+              <p class="small text-body-secondary mb-0">{{ auth.user()?.email }}</p>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-outline-danger" (click)="cerrarSesion()">
+                <i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (auth.isLoggedIn()) {
+        <h2 class="h5 fw-bold mb-3">Juegos</h2>
+        <div class="row row-cols-1 row-cols-sm-2 g-3 mb-4">
+          <div class="col">
+            <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/juegos/ahorcado">
+              <div class="card-body">
+                <span class="tile-icon d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                  <i class="bi bi-translate"></i>
+                </span>
+                <h3 class="h6 fw-bold mb-1">Ahorcado</h3>
+                <p class="small text-body-secondary mb-0">Palabras y pistas</p>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+            <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/juegos/mayor-o-menor">
+              <div class="card-body">
+                <span class="tile-icon d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                  <i class="bi bi-arrow-down-up"></i>
+                </span>
+                <h3 class="h6 fw-bold mb-1">Mayor o menor</h3>
+                <p class="small text-body-secondary mb-0">Números y reflejos</p>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+            <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/juegos/preguntados">
+              <div class="card-body">
+                <span class="tile-icon d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                  <i class="bi bi-patch-question"></i>
+                </span>
+                <h3 class="h6 fw-bold mb-1">Preguntados</h3>
+                <p class="small text-body-secondary mb-0">Trivia</p>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+            <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/juegos/sorpresa">
+              <div class="card-body">
+                <span class="tile-icon d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                  <i class="bi bi-stars"></i>
+                </span>
+                <h3 class="h6 fw-bold mb-1">Click rápido</h3>
+                <p class="small text-body-secondary mb-0">Juego sorpresa</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <h2 class="h5 fw-bold mb-3">Listados</h2>
+        <div class="row row-cols-1 row-cols-sm-2 g-3">
+          <div class="col">
+            <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/listados/resultados">
+              <div class="card-body">
+                <span class="tile-icon tile-icon--muted d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                  <i class="bi bi-trophy"></i>
+                </span>
+                <h3 class="h6 fw-bold mb-1">Tablero de resultados</h3>
+                <p class="small text-body-secondary mb-0">Ranking y puntajes</p>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+            <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/listados/chat-sala">
+              <div class="card-body">
+                <span class="tile-icon tile-icon--muted d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                  <i class="bi bi-chat-dots"></i>
+                </span>
+                <h3 class="h6 fw-bold mb-1">Chat en sala</h3>
+                <p class="small text-body-secondary mb-0">Mensajes en vivo</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      }
     </div>
+
     <div class="col-lg-5">
       <div class="hero-card card border-0 shadow-lg overflow-hidden">
         <div class="card-body p-4 p-lg-5 text-center">
-          <p class="fw-bold text-uppercase tracking maintenance-msg mb-4 text-white">
-            Aplicación en mantenimiento
-          </p>
+          <p class="fw-bold text-uppercase tracking maintenance-msg mb-4 text-white">Próximas entregas</p>
           <ul class="list-unstyled mb-0 small game-list text-start">
-            <li><i class="bi bi-check2-circle me-2"></i>Ahorcado, mayor o menor y preguntados</li>
-            <li><i class="bi bi-check2-circle me-2"></i>Click rápido (juego sorpresa)</li>
-            <li><i class="bi bi-check2-circle me-2"></i>Chat en sala y tablero de resultados</li>
+            <li><i class="bi bi-check2-circle me-2"></i>Persistencia con backend</li>
+            <li><i class="bi bi-check2-circle me-2"></i>Chat y tablero en tiempo real</li>
           </ul>
         </div>
       </div>
