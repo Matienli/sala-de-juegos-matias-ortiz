@@ -1,8 +1,6 @@
 import type { OwnGameInfo } from './environment.types';
 
-/**
- * Cambiá `githubUsername` por tu usuario de GitHub para la página "Quién soy".
- */
+
 export const environment = {
   production: true,
   githubUsername: 'Matienli',
