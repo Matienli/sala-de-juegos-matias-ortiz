@@ -6,10 +6,42 @@
   letter-spacing: 0.08em;
 }
 
+.session-banner,
+.game-tile.card {
+  background-color: #ff8133 !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  color: #fff;
+}
+
+.session-banner .text-secondary,
+.session-banner .text-body-secondary,
+.game-tile .text-body-secondary {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.session-banner .text-primary,
+.session-banner .bi-person-circle,
+.game-tile h3 {
+  color: #fff !important;
+}
+
+.session-banner .btn-outline-danger {
+  border-color: rgba(255, 255, 255, 0.75);
+  color: #fff;
+}
+
+.session-banner .btn-outline-danger:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+  color: #fff;
+}
+
 .hero-card {
-  background: linear-gradient(145deg, #ff8c42 0%, #e8742f 55%, #d96524 100%);
+  background-color: #ff8133;
+  background-image: linear-gradient(145deg, #ff8c42 0%, #ff8133 45%, #e8742f 100%);
   color: #fff;
   animation: floaty 6s ease-in-out infinite;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
 
 .hero-card .game-list {
@@ -37,4 +69,25 @@
 
 .game-list li + li {
   margin-top: 0.5rem;
+}
+
+.game-tile {
+  color: #fff;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.game-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.22) !important;
+  color: #fff;
+}
+
+.tile-icon,
+.tile-icon--muted {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }

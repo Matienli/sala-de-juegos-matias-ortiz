@@ -1,4 +1,3 @@
-/* Tipografía global (similar al repo de clase con Inter) */
 :root {
   color-scheme: light;
   --page-bg: #ffc099;
@@ -21,6 +20,9 @@
   --bs-btn-active-bg: #cc302d;
   --bs-btn-active-border-color: #cc302d;
   --bs-btn-focus-shadow-rgb: var(--brand-accent-rgb);
+  --bs-btn-disabled-bg: #c0ffbd;
+  --bs-btn-disabled-border-color: #c0ffbd;
+  --bs-btn-disabled-color: #2a4a28;
 }
 
 .btn-outline-primary {
@@ -35,7 +37,6 @@
   --bs-btn-focus-shadow-rgb: var(--brand-accent-rgb);
 }
 
-/* Fondo blanco del formulario de login/registro */
 .auth-form-card {
   background-color: var(--brand-header);
   color: #fff;

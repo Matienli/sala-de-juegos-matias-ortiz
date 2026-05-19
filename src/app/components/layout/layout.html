@@ -27,12 +27,25 @@
             [routerLinkActiveOptions]="{ exact: true }"
           >Inicio</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-sm nav-btn" routerLink="/login" routerLinkActive="active">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-sm nav-btn" routerLink="/registro" routerLinkActive="active">Registro</a>
-        </li>
+        @if (!auth.isLoggedIn()) {
+          <li class="nav-item">
+            <a class="nav-link btn btn-sm nav-btn" routerLink="/login" routerLinkActive="active">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-sm nav-btn" routerLink="/registro" routerLinkActive="active">Registro</a>
+          </li>
+        } @else {
+          <li class="nav-item py-2 py-lg-0">
+            <span class="navbar-text small fw-semibold text-white session-user">
+              <i class="bi bi-person-check me-1"></i>{{ auth.user()?.username }}
+            </span>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-sm btn-outline-light nav-logout" (click)="cerrarSesion()">
+              Salir
+            </button>
+          </li>
+        }
         <li class="nav-item">
           <a class="nav-link btn btn-sm nav-btn" routerLink="/quien-soy" routerLinkActive="active">Quién soy</a>
         </li>

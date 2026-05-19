@@ -1,6 +1,6 @@
 ﻿<section class="page-enter col-xl-8 mx-auto">
   <h1 class="h3 fw-bold mb-1">Iniciar sesión</h1>
-  <p class="text-body-secondary mb-4">Accedé con tu cuenta.</p>
+  <p class="text-body-secondary mb-4">Ingresá con tu correo y contraseña.</p>
 
   <form class="card auth-form-card shadow-sm border-0" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="card-body p-4">
@@ -13,6 +13,7 @@
           formControlName="email"
           autocomplete="username"
           placeholder="vos@ejemplo.com"
+          [disabled]="submitting()"
         />
         @if (form.controls.email.touched && form.controls.email.invalid) {
           <div class="invalid-feedback d-block">Ingresá un correo válido.</div>
@@ -26,17 +27,43 @@
           class="form-control form-control-lg"
           formControlName="password"
           autocomplete="current-password"
+          [disabled]="submitting()"
         />
         @if (form.controls.password.touched && form.controls.password.invalid) {
           <div class="invalid-feedback d-block">La contraseña debe tener al menos 6 caracteres.</div>
         }
       </div>
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="submitting()">
+          @if (submitting()) {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          }
+          Entrar
+        </button>
         <a class="btn btn-link" routerLink="/registro">¿No tenés cuenta? Registrate</a>
       </div>
     </div>
   </form>
+
+  @if (showQuickLogin) {
+    <div class="card border-0 shadow-sm mt-4 quick-login-card">
+      <div class="card-body p-4">
+        <h2 class="h6 fw-bold mb-3">Inicio de sesión rápido</h2>
+        <div class="d-flex flex-wrap gap-2" role="group" aria-label="Inicio de sesión rápido">
+          @for (q of quickLogins; track q.email) {
+            <button
+              type="button"
+              class="btn btn-sm quick-login-card__btn"
+              [disabled]="submitting()"
+              (click)="quickLogin(q)"
+            >
+              {{ q.label }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  }
 </section>
 
 <app-message-modal

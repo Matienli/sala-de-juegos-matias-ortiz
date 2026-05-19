@@ -1,21 +1,53 @@
 <section class="page-enter col-xl-8 mx-auto">
   <h1 class="h3 fw-bold mb-1">Crear cuenta</h1>
-  <p class="text-body-secondary mb-4">Completá con tus datos.</p>
+  <p class="text-body-secondary mb-4">Completá tus datos para registrarte.</p>
 
   <form class="card auth-form-card shadow-sm border-0" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="card-body p-4">
+      <div class="row g-3 mb-1">
+        <div class="col-md-6">
+          <label class="form-label" for="regNombre">Nombre</label>
+          <input
+            id="regNombre"
+            type="text"
+            class="form-control form-control-lg"
+            formControlName="nombre"
+            autocomplete="given-name"
+            [disabled]="submitting()"
+          />
+          @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+            <div class="invalid-feedback d-block">Ingresá al menos 2 caracteres.</div>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="regApellido">Apellido</label>
+          <input
+            id="regApellido"
+            type="text"
+            class="form-control form-control-lg"
+            formControlName="apellido"
+            autocomplete="family-name"
+            [disabled]="submitting()"
+          />
+          @if (form.controls.apellido.touched && form.controls.apellido.invalid) {
+            <div class="invalid-feedback d-block">Ingresá al menos 2 caracteres.</div>
+          }
+        </div>
+      </div>
       <div class="mb-3">
-        <label class="form-label" for="regName">Nombre visible</label>
+        <label class="form-label" for="regEdad">Edad</label>
         <input
-          id="regName"
-          type="text"
-          class="form-control form-control-lg"
-          formControlName="displayName"
-          autocomplete="name"
-          placeholder="Cómo te mostramos en la sala"
+          id="regEdad"
+          type="number"
+          class="form-control form-control-lg input-no-spinner"
+          formControlName="edad"
+          min="1"
+          max="120"
+          inputmode="numeric"
+          [disabled]="submitting()"
         />
-        @if (form.controls.displayName.touched && form.controls.displayName.invalid) {
-          <div class="invalid-feedback d-block">Ingresá al menos 2 caracteres.</div>
+        @if (form.controls.edad.touched && form.controls.edad.invalid) {
+          <div class="invalid-feedback d-block">Edad entre 1 y 120.</div>
         }
       </div>
       <div class="mb-3">
@@ -26,12 +58,13 @@
           class="form-control form-control-lg"
           formControlName="email"
           autocomplete="email"
+          [disabled]="submitting()"
         />
         @if (form.controls.email.touched && form.controls.email.invalid) {
           <div class="invalid-feedback d-block">Correo no válido.</div>
         }
       </div>
-      <div class="mb-3">
+      <div class="mb-4">
         <label class="form-label" for="regPassword">Contraseña</label>
         <input
           id="regPassword"
@@ -39,26 +72,19 @@
           class="form-control form-control-lg"
           formControlName="password"
           autocomplete="new-password"
+          [disabled]="submitting()"
         />
         @if (form.controls.password.touched && form.controls.password.invalid) {
           <div class="invalid-feedback d-block">Mínimo 6 caracteres.</div>
         }
       </div>
-      <div class="mb-4">
-        <label class="form-label" for="regConfirm">Repetir contraseña</label>
-        <input
-          id="regConfirm"
-          type="password"
-          class="form-control form-control-lg"
-          formControlName="confirmPassword"
-          autocomplete="new-password"
-        />
-        @if (form.touched && form.hasError('passwordsMismatch')) {
-          <div class="invalid-feedback d-block">Las contraseñas no coinciden.</div>
-        }
-      </div>
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary btn-lg">Registrarme</button>
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="submitting()">
+          @if (submitting()) {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          }
+          Registrarme
+        </button>
         <a class="btn btn-link" routerLink="/login">Ya tengo cuenta</a>
       </div>
     </div>
