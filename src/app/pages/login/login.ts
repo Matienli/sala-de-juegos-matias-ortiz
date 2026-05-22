@@ -24,7 +24,7 @@ export class Login {
 
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required]],
   });
 
   readonly submitting = signal(false);
@@ -44,7 +44,7 @@ export class Login {
       this.form.markAllAsTouched();
       this.openModal(
         'Formulario incompleto',
-        'Revisá el correo y la contraseña (mínimo 6 caracteres).',
+        'Revisá el correo y la contraseña.',
       );
       return;
     }

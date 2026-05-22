@@ -7,6 +7,7 @@ import {
   type MessageModalVariant,
 } from '../../components/message-modal/message-modal';
 import { AuthService } from '../../services/auth';
+import { PASSWORD_REQUIREMENTS_MSG, passwordValidators } from '../../validators/password.validator';
 
 @Component({
   selector: 'app-registro',
@@ -26,7 +27,7 @@ export class Registro {
       validators: [Validators.required, Validators.min(1), Validators.max(120)],
     }),
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', passwordValidators],
   });
 
   readonly submitting = signal(false);
@@ -40,7 +41,7 @@ export class Registro {
       this.form.markAllAsTouched();
       this.openModal(
         'Revisá el formulario',
-        'Completá correo, nombre, apellido, edad (1–120) y contraseña (mínimo 6 caracteres).',
+        `Completá correo, nombre, apellido, edad (1–120) y contraseña (${PASSWORD_REQUIREMENTS_MSG})`,
       );
       return;
     }
@@ -57,7 +58,7 @@ export class Registro {
     }
 
     this.submitting.set(true);
-    const { error, needsEmailConfirmation } = await this.auth.signUpWithProfile({
+    const { error } = await this.auth.signUpWithProfile({
       nombre: raw.nombre,
       apellido: raw.apellido,
       edad,
@@ -75,16 +76,7 @@ export class Registro {
       return;
     }
 
-    if (needsEmailConfirmation) {
-      this.openModal(
-        'Confirmá tu correo',
-        'Te enviamos un enlace de confirmación. Abrilo para activar la cuenta; después podés iniciar sesión.',
-        'info',
-      );
-      return;
-    }
-
-    await this.router.navigate(['/'], { replaceUrl: true });
+    await this.router.navigateByUrl('/', { replaceUrl: true });
   }
 
   closeModal(): void {

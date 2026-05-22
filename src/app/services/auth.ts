@@ -103,6 +103,12 @@ export class AuthService {
       this.userSignal.set(this.mapSupabaseUser(data.user));
       return { error: null, needsEmailConfirmation: false };
     }
+
+    const signIn = await this.signInWithEmailPassword(email, payload.password);
+    if (!signIn.error) {
+      return { error: null, needsEmailConfirmation: false };
+    }
+
     return { error: null, needsEmailConfirmation: true };
   }
 
