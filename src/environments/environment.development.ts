@@ -8,9 +8,9 @@ export const environment = {
   supabaseAnonKey:
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdmN2and2aWRodmx3Z3Z1YmVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxOTgyNTYsImV4cCI6MjA5NDc3NDI1Nn0.sqjlmjc-lC7KoTqYwI3wTzEdEq_DHaGG2QIfX95BN4c',
   quickLoginUsers: [
-    { label: 'Tester 1', email: 'tester1@ejemplo.com', password: 'prueba123' },
-    { label: 'Tester 2', email: 'tester2@ejemplo.com', password: 'prueba123' },
-    { label: 'Tester 3', email: 'tester3@ejemplo.com', password: 'prueba123' },
+    { label: 'Tester 1', email: 'tester1@ejemplo.com', password: 'Prueba1!' },
+    { label: 'Tester 2', email: 'tester2@ejemplo.com', password: 'Prueba2!' },
+    { label: 'Tester 3', email: 'tester3@ejemplo.com', password: 'Prueba3!' },
   ] satisfies QuickLoginAccount[],
   ownGame: {
     name: 'Juego sorpresa — Click rápido',
