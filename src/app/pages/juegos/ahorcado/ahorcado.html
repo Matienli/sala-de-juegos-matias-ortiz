@@ -1,0 +1,102 @@
+<section
+  class="page-enter ahorcado"
+  (keydown)="bloquearTeclado($event)"
+  tabindex="0"
+  aria-label="Ahorcado"
+>
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+      <a class="btn btn-link ps-0 text-decoration-none ahorcado-back" routerLink="/">
+        <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+      </a>
+      <h1 class="h3 fw-bold mb-0">Ahorcado</h1>
+      <p class="text-body-secondary small mb-0">Elegí letras con los botones (no uses el teclado).</p>
+    </div>
+    @if (auth.user(); as u) {
+      <span class="badge ahorcado-user-badge border">
+        <i class="bi bi-person me-1"></i>{{ u.username }}
+      </span>
+    }
+  </div>
+
+  <div class="card border-0 shadow-sm ahorcado-panel mb-4">
+    <div class="card-body p-4">
+      <div class="ahorcado-panel-top mb-3">
+        <p class="ahorcado-errores mb-0 small text-body-secondary">
+          Errores: <strong>{{ errores() }}</strong> / {{ maxErrores }}
+        </p>
+        <p class="ahorcado-version mb-0">VERSIÓN SCALONETA</p>
+        @if (partidaTerminada()) {
+          <p class="ahorcado-stats mb-0 small text-body-secondary">
+            Letras: <strong>{{ letrasUsadas().size }}</strong>
+          </p>
+        } @else {
+          <span class="ahorcado-stats-placeholder" aria-hidden="true"></span>
+        }
+      </div>
+
+      <p class="ahorcado-palabra text-center fw-bold mb-4" aria-live="polite">{{ palabraMostrada() }}</p>
+
+      @if (partidaTerminada()) {
+        <div
+          class="ahorcado-resultado mb-4"
+          [class.ahorcado-resultado--ganaste]="gano()"
+          [class.ahorcado-resultado--perdiste]="!gano()"
+          role="status"
+        >
+          <p class="ahorcado-resultado__titulo mb-1">
+            @if (gano()) {
+              <i class="bi bi-trophy-fill me-2" aria-hidden="true"></i>¡Ganaste!
+            } @else {
+              <i class="bi bi-emoji-frown-fill me-2" aria-hidden="true"></i>Perdiste
+            }
+          </p>
+          <p class="ahorcado-resultado__palabra mb-0">
+            La palabra era <strong>{{ palabraSecreta() }}</strong>
+          </p>
+          @if (guardando()) {
+            <p class="ahorcado-resultado__extra mb-0 mt-2">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Guardando partida…
+            </p>
+          } @else if (partidaGuardada()) {
+            <p class="ahorcado-resultado__extra mb-0 mt-2">
+              <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>
+              Partida guardada en la base de datos.
+            </p>
+          }
+        </div>
+      }
+
+      <div class="ahorcado-letras" role="group" aria-label="Letras del abecedario">
+        @for (letra of alfabeto; track letra) {
+          <button
+            type="button"
+            class="btn btn-sm ahorcado-letra"
+            [ngClass]="{
+              'ahorcado-letra--acierto': estadoLetra(letra) === 'acierto',
+              'ahorcado-letra--error': estadoLetra(letra) === 'error',
+            }"
+            [disabled]="!juegoActivo() || letrasUsadas().has(letra)"
+            (click)="elegirLetra(letra)"
+          >
+            {{ letra }}
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap gap-2">
+    <button type="button" class="btn btn-primary" (click)="nuevaPartida()">
+      <i class="bi bi-arrow-clockwise me-1"></i>Nueva partida
+    </button>
+  </div>
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  (closed)="cerrarModal()"
+/>

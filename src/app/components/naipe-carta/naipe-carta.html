@@ -1,0 +1,23 @@
+<div class="naipe-carta" [class.naipe-carta--destacada]="destacada()">
+  @if (!imagenFallo()) {
+    <img
+      class="naipe-carta__img"
+      [src]="rutaImagenNaipe(naipe())"
+      [alt]="etiquetaNaipe(naipe())"
+      loading="lazy"
+      (error)="onErrorImagen()"
+    />
+  } @else {
+    <div
+      class="naipe-carta__fallback"
+      [ngClass]="{
+        'naipe-carta__fallback--roja': paloEsRojo(naipe().palo),
+        'naipe-carta__fallback--negra': !paloEsRojo(naipe().palo),
+      }"
+    >
+      <span class="naipe-carta__valor">{{ etiquetaValor(naipe().valor) }}</span>
+      <span class="naipe-carta__palo" aria-hidden="true">{{ simboloPalo(naipe().palo) }}</span>
+      <span class="naipe-carta__nombre">{{ naipe().palo }}</span>
+    </div>
+  }
+</div>

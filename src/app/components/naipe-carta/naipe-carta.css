@@ -1,0 +1,63 @@
+.naipe-carta {
+  width: 100%;
+  max-width: 11rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.naipe-carta__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.65rem;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+  background: #fff;
+}
+
+.naipe-carta--destacada .naipe-carta__img,
+.naipe-carta--destacada .naipe-carta__fallback {
+  box-shadow:
+    0 0 0 3px #fff,
+    0 8px 22px rgba(0, 0, 0, 0.28);
+  transform: scale(1.04);
+}
+
+.naipe-carta__fallback {
+  aspect-ratio: 2.5 / 3.5;
+  background: var(--page-bg);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1rem;
+}
+
+.naipe-carta__fallback--roja {
+  color: var(--brand-accent);
+}
+
+.naipe-carta__fallback--negra {
+  color: #1a1a1a;
+}
+
+.naipe-carta__valor {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.naipe-carta__palo {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.naipe-carta__nombre {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  font-weight: 600;
+  opacity: 0.85;
+}

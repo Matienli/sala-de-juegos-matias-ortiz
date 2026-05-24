@@ -7,6 +7,9 @@ import { Home } from './pages/home/home';
 import { Login } from './pages/login/login';
 import { Registro } from './pages/registro/registro';
 import { QuienSoy } from './pages/quien-soy/quien-soy';
+import { Ahorcado } from './pages/juegos/ahorcado/ahorcado';
+import { MayorOMenor } from './pages/juegos/mayor-o-menor/mayor-o-menor';
+import { ChatSala } from './pages/listados/chat-sala/chat-sala';
 import { SitioPlaceholder } from './pages/sitio-placeholder/sitio-placeholder';
 
 export const routes: Routes = [
@@ -20,15 +23,13 @@ export const routes: Routes = [
       { path: 'quien-soy', component: QuienSoy },
       {
         path: 'juegos/ahorcado',
-        component: SitioPlaceholder,
+        component: Ahorcado,
         canActivate: [authGuard],
-        data: { title: 'Ahorcado' },
       },
       {
         path: 'juegos/mayor-o-menor',
-        component: SitioPlaceholder,
+        component: MayorOMenor,
         canActivate: [authGuard],
-        data: { title: 'Mayor o menor' },
       },
       {
         path: 'juegos/preguntados',
@@ -50,9 +51,8 @@ export const routes: Routes = [
       },
       {
         path: 'listados/chat-sala',
-        component: SitioPlaceholder,
+        component: ChatSala,
         canActivate: [authGuard],
-        data: { title: 'Chat en sala' },
       },
     ],
   },
