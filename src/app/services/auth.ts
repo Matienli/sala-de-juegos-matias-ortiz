@@ -138,7 +138,11 @@ export class AuthService {
     const joined = [n, a].filter(Boolean).join(' ').trim();
     const legacy = typeof meta?.display_name === 'string' ? meta.display_name.trim() : '';
     const username = joined || legacy || this.usernameFromEmail(email);
-    return { username, email };
+    return { id: user.id, username, email };
+  }
+
+  getSupabaseClient(): SupabaseClient | null {
+    return this.client;
   }
 
   private usernameFromEmail(email: string): string {

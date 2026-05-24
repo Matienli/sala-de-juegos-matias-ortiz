@@ -1,0 +1,89 @@
+<section class="page-enter chat-sala" aria-label="Chat en sala">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+      <a class="btn btn-link ps-0 text-decoration-none chat-back" routerLink="/">
+        <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+      </a>
+      <h1 class="h3 fw-bold mb-0">Chat en sala</h1>
+      <p class="text-body-secondary small mb-0">Sala global para usuarios con sesión iniciada.</p>
+    </div>
+    @if (auth.user(); as u) {
+      <span class="badge chat-user-badge border">
+        <i class="bi bi-person me-1"></i>{{ u.username }}
+      </span>
+    }
+  </div>
+
+  <div class="card border-0 shadow-sm chat-panel">
+    <div class="card-body p-0 d-flex flex-column chat-panel__body">
+      <div
+        #listaMensajes
+        class="chat-mensajes flex-grow-1"
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions"
+        aria-label="Mensajes del chat"
+      >
+        @if (cargando()) {
+          <p class="chat-estado text-center mb-0">
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Cargando mensajes…
+          </p>
+        } @else if (mensajes().length === 0) {
+          <p class="chat-estado text-center mb-0">Todavía no hay mensajes. ¡Sé el primero en escribir!</p>
+        } @else {
+          @for (m of mensajes(); track m.id) {
+            <article
+              class="chat-burbuja"
+              [class.chat-burbuja--propia]="esPropio(m.user_id)"
+              [attr.aria-label]="esPropio(m.user_id) ? 'Tu mensaje' : 'Mensaje de ' + m.nombre_usuario"
+            >
+              <header class="chat-burbuja__meta">
+                <span class="chat-burbuja__autor">{{ esPropio(m.user_id) ? 'Vos' : m.nombre_usuario }}</span>
+                <time class="chat-burbuja__hora" [attr.datetime]="m.enviado_en">
+                  {{ m.enviado_en | date: 'dd/MM/yy HH:mm' }}
+                </time>
+              </header>
+              <p class="chat-burbuja__texto mb-0">{{ m.mensaje }}</p>
+            </article>
+          }
+        }
+      </div>
+
+      <form class="chat-form border-top" (submit)="onSubmit($event)">
+        <label class="visually-hidden" for="chat-texto">Mensaje</label>
+        <textarea
+          id="chat-texto"
+          class="form-control chat-form__input"
+          rows="2"
+          maxlength="500"
+          placeholder="Escribí un mensaje…"
+          [(ngModel)]="textoMensaje"
+          name="textoMensaje"
+          [disabled]="enviando() || cargando()"
+          (keydown.enter)="onEnter($event)"
+        ></textarea>
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-2">
+          <span class="small chat-form__hint">Enter para enviar · máx. 500 caracteres</span>
+          <button
+            type="submit"
+            class="btn btn-primary chat-form__btn"
+            [disabled]="enviando() || cargando() || !textoMensaje.trim()"
+          >
+            @if (enviando()) {
+              <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            }
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  (closed)="cerrarModal()"
+/>
