@@ -4,7 +4,7 @@
 
 **Repositorio:** https://github.com/Matienli/sala-de-juegos-matias-ortiz
 
-Aplicación Angular con las pantallas del **Sprint 1** y la autenticación del **Sprint 2**.
+Aplicación Angular con las pantallas del **Sprint 1**, la autenticación del **Sprint 2** y los juegos y el chat del **Sprint 3**.
 
 ## Vercel
 
@@ -27,8 +27,27 @@ Aplicación Angular con las pantallas del **Sprint 1** y la autenticación del *
 - **Guards:** `authGuard` en `/juegos/*` y `/listados/*`; `guestGuard` en `/login` y `/registro`.
 - **Navbar** condicional (login/registro o usuario + salir).
 - **Inicio rápido:** tres botones de prueba en login (`environment.quickLoginUsers`).
-- Rutas placeholder para juegos y listados (próximas entregas).
 - Configuración en `src/environments/environment.ts` (producción/Vercel) y `environment.development.ts` (local).
+
+## Sprint 3
+
+### Juegos
+
+| Ruta | Juego | Descripción |
+|------|--------|-------------|
+| `/juegos/ahorcado` | Ahorcado | Palabras en `src/app/data/ahorcado-palabras.ts` (mayúsculas, admite espacios). Teclado en pantalla A–Z + Ñ. Máximo 6 errores. Versión **SCALONETA** en el panel. Guarda partida en Supabase. |
+| `/juegos/mayor-o-menor` | Mayor o menor | Baraja española de 40 cartas con imágenes en `public/cartas/`. Botones Mayor / Menor.Guarda partida en Supabase. |
+
+### Chat en sala
+
+| Ruta | Función |
+|------|---------|
+| `/listados/chat-sala` | Chat global para usuarios logueados. Envío de mensajes a Supabase (`mensajes_chat`). Actualización en tiempo real con **Supabase Realtime**. Mensajes propios diferenciados (alineación y color). |
+
+### Componentes y servicios nuevos
+
+- `Ahorcado`, `MayorOMenor`, `ChatSala`, `NaipeCarta`, `MessageModal`
+- `AhorcadoPartidasService`, `MayorMenorPartidasService`, `ChatSalaService`
 
 ## Desarrollo local
 
@@ -39,7 +58,7 @@ npm start
 
 Abrí http://localhost:4200/
 
-Para que login y registro funcionen en local, completá `supabaseUrl` y `supabaseAnonKey` en `environment.development.ts`. Los usuarios de inicio rápido deben existir en Supabase Auth.
+Para que login, registro, juegos y chat funcionen en local, completá `supabaseUrl` y `supabaseAnonKey` en `environment.development.ts`. Los usuarios de inicio rápido deben existir en Supabase Auth.
 
 ## Deploy (Vercel)
 
