@@ -1,0 +1,112 @@
+<section class="page-enter preguntados" aria-label="Preguntados">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+      <a class="btn btn-link ps-0 text-decoration-none pg-back" routerLink="/">
+        <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+      </a>
+      <h1 class="h3 fw-bold mb-0">Preguntados</h1>
+      <p class="text-body-secondary small mb-0">
+        Geografía en español: datos de
+        <a
+          class="pg-link"
+          href="https://restcountries.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >REST Countries</a>
+        (API del listado
+        <a
+          class="pg-link"
+          href="https://github.com/public-apis/public-apis"
+          target="_blank"
+          rel="noopener noreferrer"
+        >public-apis</a>).
+      </p>
+    </div>
+    @if (auth.user(); as u) {
+      <span class="badge pg-user-badge border">
+        <i class="bi bi-person me-1"></i>{{ u.username }}
+      </span>
+    }
+  </div>
+
+  <div class="card border-0 shadow-sm pg-panel mb-4">
+    <div class="card-body p-4">
+      @if (cargando()) {
+        <p class="pg-estado text-center mb-0">
+          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          Cargando preguntas…
+        </p>
+      } @else if (partidaTerminada()) {
+        <div class="pg-resultado" role="status">
+          <p class="pg-resultado__titulo mb-2">
+            <i class="bi bi-flag-fill me-2" aria-hidden="true"></i>Partida terminada
+          </p>
+          <p class="pg-resultado__puntaje mb-1">
+            Acertaste <strong>{{ aciertos() }}</strong> de <strong>{{ totalPreguntas() }}</strong>
+          </p>
+          @if (guardando()) {
+            <p class="pg-resultado__extra mb-0">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Guardando partida…
+            </p>
+          } @else if (partidaGuardada()) {
+            <p class="pg-resultado__extra mb-0">
+              <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>
+              Partida guardada en la base de datos.
+            </p>
+          }
+        </div>
+      } @else if (preguntaActual(); as pregunta) {
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <p class="mb-0 small text-body-secondary">{{ progresoTexto() }}</p>
+          <p class="mb-0 small text-body-secondary">
+            Aciertos: <strong>{{ aciertos() }}</strong>
+          </p>
+        </div>
+
+        <p class="small text-body-secondary mb-1">{{ pregunta.categoria }}</p>
+        <p class="small pg-dificultad mb-3">
+          Dificultad: {{ etiquetaDificultad(pregunta.dificultad) }}
+        </p>
+
+        <h2 class="h5 pg-pregunta mb-4">{{ pregunta.pregunta }}</h2>
+
+        <div class="pg-opciones" role="group" [attr.aria-label]="'Opciones para: ' + pregunta.pregunta">
+          @for (opcion of pregunta.opciones; track opcion.texto) {
+            <button
+              type="button"
+              class="btn pg-opcion"
+              [ngClass]="{
+                'pg-opcion--correcta': estadoOpcion(opcion) === 'correcta',
+                'pg-opcion--incorrecta': estadoOpcion(opcion) === 'incorrecta',
+                'pg-opcion--revelada': estadoOpcion(opcion) === 'revelada',
+              }"
+              [disabled]="respondiendo()"
+              (click)="elegirOpcion(opcion)"
+            >
+              {{ opcion.texto }}
+            </button>
+          }
+        </div>
+      } @else {
+        <p class="pg-estado text-center mb-3">No hay preguntas cargadas.</p>
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" (click)="iniciarPartida()">Reintentar</button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap gap-2">
+    <button type="button" class="btn btn-primary" [disabled]="cargando()" (click)="iniciarPartida()">
+      <i class="bi bi-arrow-clockwise me-1"></i>Nueva partida
+    </button>
+  </div>
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  (closed)="cerrarModal()"
+/>

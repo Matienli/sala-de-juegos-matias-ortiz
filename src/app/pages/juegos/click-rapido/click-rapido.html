@@ -1,0 +1,116 @@
+<section class="page-enter click-rapido" aria-label="Click rápido">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+      <a class="btn btn-link ps-0 text-decoration-none cr-back" routerLink="/">
+        <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+      </a>
+      <h1 class="h3 fw-bold mb-0">Click rápido</h1>
+      <p class="text-body-secondary small mb-0">Juego propio — desafío de reflejos (ms).</p>
+    </div>
+    @if (auth.user(); as u) {
+      <span class="badge cr-user-badge border">
+        <i class="bi bi-person me-1"></i>{{ u.username }}
+      </span>
+    }
+  </div>
+
+  <div class="card border-0 shadow-sm cr-panel mb-4">
+    <div class="card-body p-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <p class="mb-0 small text-body-secondary">
+          Ronda:
+          @if (fase() === 'inicio' || fase() === 'fin') {
+            <strong>—</strong>
+          } @else {
+            <strong>{{ rondaActual() }}</strong> / {{ rondasTotales }}
+          }
+        </p>
+        @if (mejorParcial(); as mejor) {
+          <p class="mb-0 small text-body-secondary">
+            Mejor: <strong>{{ mejor }} ms</strong>
+          </p>
+        }
+      </div>
+
+      <div
+        class="cr-zona"
+        [class.cr-zona--esperando]="fase() === 'esperando'"
+        [class.cr-zona--activa]="fase() === 'objetivo'"
+        (click)="onClickZona($event)"
+        role="button"
+        tabindex="0"
+        [attr.aria-label]="
+          fase() === 'esperando'
+            ? 'Esperá al objetivo'
+            : fase() === 'objetivo'
+              ? 'Hacé clic en el objetivo'
+              : 'Zona de juego'
+        "
+      >
+        @switch (fase()) {
+          @case ('inicio') {
+            <p class="cr-zona__texto mb-0">Presioná «Empezar partida» para las 5 rondas.</p>
+          }
+          @case ('esperando') {
+            <p class="cr-zona__texto mb-0">Esperá…</p>
+          }
+          @case ('objetivo') {
+            <button
+              type="button"
+              class="btn cr-objetivo"
+              [style.top.%]="objetivoTop()"
+              [style.left.%]="objetivoLeft()"
+            >
+              ¡Acá!
+            </button>
+            <p class="cr-zona__ayuda mb-0">Solo cuenta si tocás el botón rojo.</p>
+          }
+          @case ('feedback') {
+            <p class="cr-zona__texto mb-0">{{ mensajeFeedback() }}</p>
+          }
+          @case ('fin') {
+            <div class="cr-resultado text-center">
+              <p class="cr-resultado__titulo mb-2">Partida terminada</p>
+              <p class="mb-1">
+                Mejor tiempo: <strong>{{ mejorTiempo() }} ms</strong>
+              </p>
+              <p class="mb-0">
+                Promedio: <strong>{{ promedioTiempo() }} ms</strong>
+              </p>
+              @if (guardando()) {
+                <p class="cr-resultado__extra mb-0 mt-2">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Guardando…
+                </p>
+              } @else if (partidaGuardada()) {
+                <p class="cr-resultado__extra mb-0 mt-2">
+                  <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i>
+                  Partida guardada en la base de datos.
+                </p>
+              }
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap gap-2">
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="fase() !== 'inicio' && fase() !== 'fin'"
+      (click)="empezarPartida()"
+    >
+      <i class="bi bi-play-fill me-1"></i>
+      {{ fase() === 'fin' ? 'Jugar de nuevo' : 'Empezar partida' }}
+    </button>
+  </div>
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  (closed)="cerrarModal()"
+/>

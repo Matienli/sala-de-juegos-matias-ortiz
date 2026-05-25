@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
 import {
@@ -11,7 +12,7 @@ import { GithubProfileService } from '../../services/github-profile';
 
 @Component({
   selector: 'app-quien-soy',
-  imports: [DatePipe, MessageModal],
+  imports: [DatePipe, RouterLink, MessageModal],
   templateUrl: './quien-soy.html',
   styleUrl: './quien-soy.css',
 })

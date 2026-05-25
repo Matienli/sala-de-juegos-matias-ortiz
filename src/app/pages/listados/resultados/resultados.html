@@ -1,0 +1,205 @@
+<section class="page-enter resultados" aria-label="Tablero de resultados">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+      <a class="btn btn-link ps-0 text-decoration-none res-back" routerLink="/">
+        <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+      </a>
+      <h1 class="h3 fw-bold mb-0">Resultados</h1>
+      <p class="text-body-secondary small mb-0">
+        Mejor partida de cada jugador, ordenada de mejor a peor desempeño.
+      </p>
+    </div>
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      @if (auth.user(); as u) {
+        <span class="badge res-user-badge border">
+          <i class="bi bi-person me-1"></i>{{ u.username }}
+        </span>
+      }
+      <button type="button" class="btn btn-outline-primary btn-sm" [disabled]="cargando()" (click)="recargar()">
+        <i class="bi bi-arrow-clockwise me-1"></i>Actualizar
+      </button>
+    </div>
+  </div>
+
+  @if (cargando()) {
+    <p class="res-estado text-center">
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Cargando resultados…
+    </p>
+  } @else {
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card res-panel h-100">
+          <div class="card-body p-0">
+            <h2 class="h6 res-panel__titulo mb-0 px-3 py-2">
+              <i class="bi bi-translate me-2"></i>Ahorcado
+            </h2>
+            <div class="table-responsive">
+              <table class="table table-sm res-tabla mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Jugador</th>
+                    <th>Resultado</th>
+                    <th>Errores</th>
+                    <th>Tiempo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (ahorcado().length === 0) {
+                    <tr>
+                      <td colspan="5" class="text-center text-body-secondary py-3">Sin partidas</td>
+                    </tr>
+                  } @else {
+                    @for (fila of ahorcado(); track fila.id; let i = $index) {
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ fila.nombre_usuario }}</td>
+                        <td>
+                          @if (fila.gano) {
+                            <span class="badge text-bg-success">Ganó</span>
+                          } @else {
+                            <span class="badge text-bg-secondary">Perdió</span>
+                          }
+                        </td>
+                        <td>{{ fila.intentos_fallidos }}</td>
+                        <td>{{ fila.tiempo_segundos }} s</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card res-panel h-100">
+          <div class="card-body p-0">
+            <h2 class="h6 res-panel__titulo mb-0 px-3 py-2">
+              <i class="bi bi-arrow-down-up me-2"></i>Mayor o menor
+            </h2>
+            <div class="table-responsive">
+              <table class="table table-sm res-tabla mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Jugador</th>
+                    <th>Aciertos</th>
+                    <th>%</th>
+                    <th>Tiempo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (mayorMenor().length === 0) {
+                    <tr>
+                      <td colspan="5" class="text-center text-body-secondary py-3">Sin partidas</td>
+                    </tr>
+                  } @else {
+                    @for (fila of mayorMenor(); track fila.id; let i = $index) {
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ fila.nombre_usuario }}</td>
+                        <td>{{ fila.cartas_acertadas }} / {{ fila.cartas_jugadas }}</td>
+                        <td>{{ porcentajeMayorMenor(fila) }}%</td>
+                        <td>{{ fila.tiempo_segundos }} s</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card res-panel h-100">
+          <div class="card-body p-0">
+            <h2 class="h6 res-panel__titulo mb-0 px-3 py-2">
+              <i class="bi bi-patch-question me-2"></i>Preguntados
+            </h2>
+            <div class="table-responsive">
+              <table class="table table-sm res-tabla mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Jugador</th>
+                    <th>Aciertos</th>
+                    <th>Total</th>
+                    <th>Tiempo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (preguntados().length === 0) {
+                    <tr>
+                      <td colspan="5" class="text-center text-body-secondary py-3">Sin partidas</td>
+                    </tr>
+                  } @else {
+                    @for (fila of preguntados(); track fila.id; let i = $index) {
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ fila.nombre_usuario }}</td>
+                        <td>{{ fila.preguntas_acertadas }}</td>
+                        <td>{{ fila.preguntas_totales }}</td>
+                        <td>{{ fila.tiempo_segundos }} s</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card res-panel h-100">
+          <div class="card-body p-0">
+            <h2 class="h6 res-panel__titulo mb-0 px-3 py-2">
+              <i class="bi bi-stars me-2"></i>Click rápido
+            </h2>
+            <div class="table-responsive">
+              <table class="table table-sm res-tabla mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Jugador</th>
+                    <th>Mejor (ms)</th>
+                    <th>Promedio (ms)</th>
+                    <th>Rondas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (clickRapido().length === 0) {
+                    <tr>
+                      <td colspan="5" class="text-center text-body-secondary py-3">Sin partidas</td>
+                    </tr>
+                  } @else {
+                    @for (fila of clickRapido(); track fila.id; let i = $index) {
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ fila.nombre_usuario }}</td>
+                        <td><strong>{{ fila.mejor_tiempo_ms }}</strong></td>
+                        <td>{{ fila.promedio_tiempo_ms }}</td>
+                        <td>{{ fila.cantidad_rondas }}</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  (closed)="cerrarModal()"
+/>

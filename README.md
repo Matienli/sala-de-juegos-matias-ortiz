@@ -4,7 +4,7 @@
 
 **Repositorio:** https://github.com/Matienli/sala-de-juegos-matias-ortiz
 
-Aplicación Angular con las pantallas del **Sprint 1**, la autenticación del **Sprint 2** y los juegos y el chat del **Sprint 3**.
+Aplicación Angular con las pantallas del **Sprint 1**, la autenticación del **Sprint 2**, los juegos y el chat del **Sprint 3**, y **Preguntados** del **Sprint 4**.
 
 ## Vercel
 
@@ -36,7 +36,7 @@ Aplicación Angular con las pantallas del **Sprint 1**, la autenticación del **
 | Ruta | Juego | Descripción |
 |------|--------|-------------|
 | `/juegos/ahorcado` | Ahorcado | Palabras en `src/app/data/ahorcado-palabras.ts` (mayúsculas, admite espacios). Teclado en pantalla A–Z + Ñ. Máximo 6 errores. Versión **SCALONETA** en el panel. Guarda partida en Supabase. |
-| `/juegos/mayor-o-menor` | Mayor o menor | Baraja española de 40 cartas con imágenes en `public/cartas/`. Botones Mayor / Menor.Guarda partida en Supabase. |
+| `/juegos/mayor-o-menor` | Mayor o menor | Baraja española de 40 cartas con imágenes en `public/cartas/`. Botones Mayor / Menor. Guarda partida en Supabase. |
 
 ### Chat en sala
 
@@ -44,10 +44,37 @@ Aplicación Angular con las pantallas del **Sprint 1**, la autenticación del **
 |------|---------|
 | `/listados/chat-sala` | Chat global para usuarios logueados. Envío de mensajes a Supabase (`mensajes_chat`). Actualización en tiempo real con **Supabase Realtime**. Mensajes propios diferenciados (alineación y color). |
 
-### Componentes y servicios nuevos
+### Componentes y servicios nuevos (Sprint 3)
 
 - `Ahorcado`, `MayorOMenor`, `ChatSala`, `NaipeCarta`, `MessageModal`
 - `AhorcadoPartidasService`, `MayorMenorPartidasService`, `ChatSalaService`
+
+## Sprint 4
+
+### Preguntados (`/juegos/preguntados`)
+
+- Datos desde **[REST Countries](https://restcountries.com/)** ([public-apis](https://github.com/public-apis/public-apis)), cruzados con nombres y capitales en español en `src/app/data/preguntados-geografia.ts` (~50 países conocidos).
+- 10 preguntas por partida; **4 botones** por pregunta (respuestas mezcladas).
+- Categoría y dificultad visibles en pantalla.
+- Al terminar guarda en Supabase (`partidas_preguntados`): usuario, total de preguntas, aciertos y tiempo en segundos.
+
+### Servicios nuevos (Sprint 4)
+
+- `PreguntadosApiService`, `PreguntadosPartidasService`, componente `Preguntados`
+
+### Juego propio — Click rápido (`/juegos/sorpresa`)
+
+- Desafío de reflejos: aparece un botón en posición aleatoria; se mide el tiempo de reacción en **milisegundos**.
+- 5 rondas por partida; penalización si hacés clic antes de tiempo.
+- Descripción y reglas en **Quién soy** (`environment.ownGame`).
+- Guardado en `partidas_click_rapido`: mejor tiempo, promedio, cantidad de rondas y duración total.
+- SQL: `supabase/partidas_click_rapido.sql`.
+
+### Listados — Resultados
+
+- Ruta: `/listados/resultados` (requiere sesión).
+- Cuatro tablas (Ahorcado, Mayor o menor, Preguntados, Click rápido) con el **mejor resultado por jugador**, ordenado de mejor a peor.
+- Criterios: victoria y menos errores en Ahorcado; aciertos en Mayor o menor y Preguntados; menor tiempo de reacción en Click rápido.
 
 ## Desarrollo local
 

@@ -1,0 +1,114 @@
+.pg-back {
+  --bs-btn-color: var(--brand-accent);
+}
+
+.pg-link {
+  color: var(--brand-accent);
+}
+
+.pg-user-badge {
+  background: var(--brand-accent);
+  color: #fff;
+  border-color: var(--brand-accent-hover) !important;
+}
+
+.pg-panel {
+  background-color: var(--brand-header);
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  color: #fff;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pg-panel .text-body-secondary {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.pg-panel .text-body-secondary strong {
+  color: #fff;
+}
+
+.pg-estado {
+  color: rgba(255, 255, 255, 0.92);
+  padding: 2rem 1rem;
+}
+
+.pg-dificultad {
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: capitalize;
+}
+
+.pg-pregunta {
+  color: #fff;
+  line-height: 1.45;
+}
+
+.pg-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pg-opcion {
+  text-align: left;
+  white-space: normal;
+  background: var(--page-bg);
+  color: #1a1a1a;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+}
+
+.pg-opcion:hover:not(:disabled) {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #1a1a1a;
+}
+
+.pg-opcion:disabled:not(.pg-opcion--correcta):not(.pg-opcion--incorrecta) {
+  opacity: 0.85;
+}
+
+.pg-opcion--correcta {
+  background: #c8e6c9 !important;
+  border-color: #2e7d32 !important;
+  color: #1b5e20 !important;
+}
+
+.pg-opcion--incorrecta {
+  background: #ffcdd2 !important;
+  border-color: var(--brand-accent) !important;
+  color: #b71c1c !important;
+}
+
+.pg-opcion--revelada {
+  opacity: 0.65;
+}
+
+.pg-resultado {
+  background: var(--page-bg);
+  color: #1a1a1a;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.pg-resultado__titulo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--brand-accent);
+}
+
+.pg-resultado__puntaje {
+  font-size: 1.1rem;
+}
+
+.pg-resultado__extra {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2e7d32;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
