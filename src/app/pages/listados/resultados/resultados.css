@@ -1,0 +1,57 @@
+.res-back {
+  --bs-btn-color: var(--brand-accent);
+}
+
+.res-user-badge {
+  background: var(--brand-accent);
+  color: #fff;
+  border-color: var(--brand-accent-hover) !important;
+}
+
+.res-estado {
+  padding: 2rem;
+  color: var(--brand-header);
+  font-weight: 600;
+}
+
+.res-panel {
+  border: 2px solid #000 !important;
+  box-shadow: none !important;
+  overflow: hidden;
+  background-color: #d1d1d1;
+}
+
+.res-tabla {
+  --bs-table-border-color: #000;
+  --bs-table-bg: #d1d1d1;
+  --bs-table-striped-bg: #c4c4c4;
+  border-color: #000;
+}
+
+.res-tabla th,
+.res-tabla td {
+  border-color: #000 !important;
+}
+
+.res-panel__titulo {
+  background: var(--brand-header);
+  color: #fff;
+  font-weight: 700;
+}
+
+.res-tabla thead th {
+  background: var(--page-bg);
+  color: #1a1a1a;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.res-tabla tbody td {
+  font-size: 0.9rem;
+  vertical-align: middle;
+  background-color: #d1d1d1;
+}
+
+.res-tabla tbody tr:nth-child(even) td {
+  background-color: #c4c4c4;
+}

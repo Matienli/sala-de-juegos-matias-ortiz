@@ -9,7 +9,10 @@ import { Registro } from './pages/registro/registro';
 import { QuienSoy } from './pages/quien-soy/quien-soy';
 import { Ahorcado } from './pages/juegos/ahorcado/ahorcado';
 import { MayorOMenor } from './pages/juegos/mayor-o-menor/mayor-o-menor';
+import { ClickRapido } from './pages/juegos/click-rapido/click-rapido';
+import { Preguntados } from './pages/juegos/preguntados/preguntados';
 import { ChatSala } from './pages/listados/chat-sala/chat-sala';
+import { Resultados } from './pages/listados/resultados/resultados';
 import { SitioPlaceholder } from './pages/sitio-placeholder/sitio-placeholder';
 
 export const routes: Routes = [
@@ -33,21 +36,18 @@ export const routes: Routes = [
       },
       {
         path: 'juegos/preguntados',
-        component: SitioPlaceholder,
+        component: Preguntados,
         canActivate: [authGuard],
-        data: { title: 'Preguntados' },
       },
       {
         path: 'juegos/sorpresa',
-        component: SitioPlaceholder,
+        component: ClickRapido,
         canActivate: [authGuard],
-        data: { title: 'Click rápido' },
       },
       {
         path: 'listados/resultados',
-        component: SitioPlaceholder,
+        component: Resultados,
         canActivate: [authGuard],
-        data: { title: 'Tablero de resultados' },
       },
       {
         path: 'listados/chat-sala',

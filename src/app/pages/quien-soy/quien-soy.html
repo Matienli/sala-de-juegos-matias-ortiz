@@ -70,14 +70,25 @@
               </span>
               <h3 class="h5 fw-semibold mb-0">Mi juego propio: {{ ownGame.name }}</h3>
             </div>
+            <h4 class="h6 text-body-secondary text-uppercase tracking mb-2">Descripción</h4>
+            <p class="mb-4">{{ ownGame.description }}</p>
+            <h4 class="h6 text-body-secondary text-uppercase tracking mb-2">Reglas</h4>
+            <ul class="mb-4 ps-3">
+              @for (regla of ownGame.rules; track $index) {
+                <li class="mb-2">{{ regla }}</li>
+              }
+            </ul>
             <h4 class="h6 text-body-secondary text-uppercase tracking mb-2">Por qué lo elegí</h4>
             <p class="mb-4">{{ ownGame.whyChosen }}</p>
             <h4 class="h6 text-body-secondary text-uppercase tracking mb-2">Cómo se juega</h4>
-            <ol class="mb-0 ps-3">
+            <ol class="mb-4 ps-3">
               @for (step of ownGame.howToPlay; track $index) {
                 <li class="mb-2">{{ step }}</li>
               }
             </ol>
+            <a class="btn btn-primary" routerLink="/juegos/sorpresa">
+              <i class="bi bi-play-fill me-1"></i>Jugar Click rápido
+            </a>
           </div>
         </div>
       </div>
