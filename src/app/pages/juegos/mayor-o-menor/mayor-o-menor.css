@@ -22,6 +22,10 @@
   border-color: var(--brand-accent-hover) !important;
 }
 
+.mm-errores {
+  font-variant-numeric: tabular-nums;
+}
+
 .mm-cartas-row {
   display: flex;
   flex-wrap: wrap;

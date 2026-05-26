@@ -4,16 +4,6 @@ import { Layout } from './components/layout/layout';
 import { authGuard } from './guards/auth.guard';
 import { guestGuard } from './guards/guest.guard';
 import { Home } from './pages/home/home';
-import { Login } from './pages/login/login';
-import { Registro } from './pages/registro/registro';
-import { QuienSoy } from './pages/quien-soy/quien-soy';
-import { Ahorcado } from './pages/juegos/ahorcado/ahorcado';
-import { MayorOMenor } from './pages/juegos/mayor-o-menor/mayor-o-menor';
-import { ClickRapido } from './pages/juegos/click-rapido/click-rapido';
-import { Preguntados } from './pages/juegos/preguntados/preguntados';
-import { ChatSala } from './pages/listados/chat-sala/chat-sala';
-import { Resultados } from './pages/listados/resultados/resultados';
-import { SitioPlaceholder } from './pages/sitio-placeholder/sitio-placeholder';
 
 export const routes: Routes = [
   {
@@ -21,37 +11,54 @@ export const routes: Routes = [
     component: Layout,
     children: [
       { path: '', component: Home },
-      { path: 'login', component: Login, canActivate: [guestGuard] },
-      { path: 'registro', component: Registro, canActivate: [guestGuard] },
-      { path: 'quien-soy', component: QuienSoy },
+      {
+        path: 'login',
+        loadComponent: () => import('./pages/login/login').then((m) => m.Login),
+        canActivate: [guestGuard],
+      },
+      {
+        path: 'registro',
+        loadComponent: () => import('./pages/registro/registro').then((m) => m.Registro),
+        canActivate: [guestGuard],
+      },
+      {
+        path: 'quien-soy',
+        loadComponent: () => import('./pages/quien-soy/quien-soy').then((m) => m.QuienSoy),
+      },
       {
         path: 'juegos/ahorcado',
-        component: Ahorcado,
+        loadComponent: () =>
+          import('./pages/juegos/ahorcado/ahorcado').then((m) => m.Ahorcado),
         canActivate: [authGuard],
       },
       {
         path: 'juegos/mayor-o-menor',
-        component: MayorOMenor,
+        loadComponent: () =>
+          import('./pages/juegos/mayor-o-menor/mayor-o-menor').then((m) => m.MayorOMenor),
         canActivate: [authGuard],
       },
       {
         path: 'juegos/preguntados',
-        component: Preguntados,
+        loadComponent: () =>
+          import('./pages/juegos/preguntados/preguntados').then((m) => m.Preguntados),
         canActivate: [authGuard],
       },
       {
         path: 'juegos/sorpresa',
-        component: ClickRapido,
+        loadComponent: () =>
+          import('./pages/juegos/click-rapido/click-rapido').then((m) => m.ClickRapido),
         canActivate: [authGuard],
       },
       {
         path: 'listados/resultados',
-        component: Resultados,
+        loadComponent: () =>
+          import('./pages/listados/resultados/resultados').then((m) => m.Resultados),
         canActivate: [authGuard],
       },
       {
         path: 'listados/chat-sala',
-        component: ChatSala,
+        loadComponent: () =>
+          import('./pages/listados/chat-sala/chat-sala').then((m) => m.ChatSala),
         canActivate: [authGuard],
       },
     ],

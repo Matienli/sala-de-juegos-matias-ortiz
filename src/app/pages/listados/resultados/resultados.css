@@ -21,6 +21,19 @@
   background-color: #d1d1d1;
 }
 
+.res-panel .table-responsive {
+  max-height: 16.5rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.res-panel .table-responsive::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 .res-tabla {
   --bs-table-border-color: #000;
   --bs-table-bg: #d1d1d1;
@@ -44,6 +57,9 @@
   color: #1a1a1a;
   font-size: 0.8rem;
   white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .res-tabla tbody td {

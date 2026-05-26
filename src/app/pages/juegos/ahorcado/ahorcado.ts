@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { MessageModal } from '../../../components/message-modal/message-modal';
@@ -20,7 +20,7 @@ function esLetraAdivinable(char: string): boolean {
   templateUrl: './ahorcado.html',
   styleUrl: './ahorcado.css',
 })
-export class Ahorcado implements OnInit {
+export class Ahorcado implements OnInit, OnDestroy {
   private readonly partidas = inject(AhorcadoPartidasService);
   readonly auth = inject(AuthService);
 
@@ -34,6 +34,7 @@ export class Ahorcado implements OnInit {
   readonly gano = signal(false);
   readonly guardando = signal(false);
   readonly partidaGuardada = signal(false);
+  readonly tiempoSegundos = signal(0);
 
   readonly modalOpen = signal(false);
   readonly modalTitle = signal('');
@@ -41,6 +42,14 @@ export class Ahorcado implements OnInit {
 
   private inicioMs = 0;
   private partidaPersistida = false;
+  private tiempoTimer: ReturnType<typeof setInterval> | null = null;
+
+  readonly tiempoFormateado = computed(() => {
+    const total = this.tiempoSegundos();
+    const minutos = Math.floor(total / 60);
+    const segundos = total % 60;
+    return `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+  });
 
   readonly palabraMostrada = computed(() => {
     const palabra = this.palabraSecreta();
@@ -58,8 +67,24 @@ export class Ahorcado implements OnInit {
 
   readonly juegoActivo = computed(() => !this.partidaTerminada());
 
+  readonly longitudPalabra = computed(
+    () => this.palabraSecreta().replace(/\s/g, '').length,
+  );
+
+  readonly puntaje = computed(() => {
+    const base = this.gano() ? 500 : 0;
+    const bonusErrores = (MAX_ERRORES - this.errores()) * 50;
+    const bonusPalabra = this.longitudPalabra() * 10;
+    const penalizacionTiempo = this.tiempoSegundos() * 2;
+    return Math.max(0, base + bonusErrores + bonusPalabra - penalizacionTiempo);
+  });
+
   ngOnInit(): void {
     this.nuevaPartida();
+  }
+
+  ngOnDestroy(): void {
+    this.detenerCronometro();
   }
 
   nuevaPartida(): void {
@@ -72,6 +97,22 @@ export class Ahorcado implements OnInit {
     this.partidaGuardada.set(false);
     this.partidaPersistida = false;
     this.inicioMs = Date.now();
+    this.tiempoSegundos.set(0);
+    this.iniciarCronometro();
+  }
+
+  private iniciarCronometro(): void {
+    this.detenerCronometro();
+    this.tiempoTimer = setInterval(() => {
+      this.tiempoSegundos.set(Math.floor((Date.now() - this.inicioMs) / 1000));
+    }, 1000);
+  }
+
+  private detenerCronometro(): void {
+    if (this.tiempoTimer !== null) {
+      clearInterval(this.tiempoTimer);
+      this.tiempoTimer = null;
+    }
   }
 
   elegirLetra(letra: string): void {
@@ -123,6 +164,8 @@ export class Ahorcado implements OnInit {
   private async finalizarPartida(victoria: boolean): Promise<void> {
     this.partidaTerminada.set(true);
     this.gano.set(victoria);
+    this.tiempoSegundos.set(Math.max(1, Math.round((Date.now() - this.inicioMs) / 1000)));
+    this.detenerCronometro();
     await this.persistirPartida(victoria);
   }
 
@@ -133,13 +176,13 @@ export class Ahorcado implements OnInit {
     this.partidaPersistida = true;
     this.guardando.set(true);
 
-    const tiempoSegundos = Math.max(1, Math.round((Date.now() - this.inicioMs) / 1000));
     const { error } = await this.partidas.guardarPartida({
       palabra: this.palabraSecreta(),
       gano: victoria,
-      tiempo_segundos: tiempoSegundos,
+      tiempo_segundos: this.tiempoSegundos(),
       cantidad_letras_seleccionadas: this.letrasUsadas().size,
       intentos_fallidos: this.errores(),
+      puntaje: this.puntaje(),
     });
 
     this.guardando.set(false);

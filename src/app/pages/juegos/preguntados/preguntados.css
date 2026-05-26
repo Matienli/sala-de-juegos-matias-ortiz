@@ -39,6 +39,10 @@
   text-transform: capitalize;
 }
 
+.pg-errores {
+  font-variant-numeric: tabular-nums;
+}
+
 .pg-pregunta {
   color: #fff;
   line-height: 1.45;

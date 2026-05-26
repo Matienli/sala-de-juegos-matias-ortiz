@@ -36,10 +36,49 @@
 .ahorcado-stats {
   justify-self: end;
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
-.ahorcado-stats-placeholder {
-  display: block;
+.ahorcado-figura-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.ahorcado-figura {
+  width: clamp(160px, 28vw, 220px);
+  height: auto;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+}
+
+.ahorcado-figura__horca {
+  stroke: #2a1a0a;
+  stroke-width: 8;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.ahorcado-figura__parte {
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  fill: none;
+  animation: ahorcado-parte-aparecer 0.35s ease-out;
+}
+
+circle.ahorcado-figura__parte {
+  stroke-width: 4;
+}
+
+@keyframes ahorcado-parte-aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .ahorcado-palabra {
@@ -136,6 +175,27 @@
   color: #1a1a1a;
   font-size: 1.15rem;
   letter-spacing: 0.06em;
+}
+
+.ahorcado-resultado__stats {
+  font-size: 0.95rem;
+  color: #333;
+  font-variant-numeric: tabular-nums;
+}
+
+.ahorcado-resultado__stats strong {
+  color: #1a1a1a;
+}
+
+.ahorcado-resultado__puntaje {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.ahorcado-resultado__puntaje strong {
+  font-size: 1.35rem;
+  color: var(--brand-accent);
 }
 
 .ahorcado-resultado__extra {

@@ -26,13 +26,44 @@
           Errores: <strong>{{ errores() }}</strong> / {{ maxErrores }}
         </p>
         <p class="ahorcado-version mb-0">VERSIÓN SCALONETA</p>
-        @if (partidaTerminada()) {
-          <p class="ahorcado-stats mb-0 small text-body-secondary">
-            Letras: <strong>{{ letrasUsadas().size }}</strong>
-          </p>
-        } @else {
-          <span class="ahorcado-stats-placeholder" aria-hidden="true"></span>
-        }
+        <p class="ahorcado-stats mb-0 small text-body-secondary" aria-live="polite">
+          <i class="bi bi-stopwatch me-1" aria-hidden="true"></i>
+          <strong>{{ tiempoFormateado() }}</strong>
+        </p>
+      </div>
+
+      <div class="ahorcado-figura-wrap mb-3" aria-hidden="true">
+        <svg
+          class="ahorcado-figura"
+          viewBox="0 0 200 240"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          [attr.aria-label]="'Muñeco del ahorcado: ' + errores() + ' partes dibujadas'"
+        >
+          <line x1="20" y1="230" x2="180" y2="230" class="ahorcado-figura__horca" />
+          <line x1="50" y1="230" x2="50" y2="20" class="ahorcado-figura__horca" />
+          <line x1="50" y1="20" x2="130" y2="20" class="ahorcado-figura__horca" />
+          <line x1="130" y1="20" x2="130" y2="45" class="ahorcado-figura__horca" />
+
+          @if (errores() >= 1) {
+            <circle cx="130" cy="63" r="18" class="ahorcado-figura__parte" />
+          }
+          @if (errores() >= 2) {
+            <line x1="130" y1="81" x2="130" y2="150" class="ahorcado-figura__parte" />
+          }
+          @if (errores() >= 3) {
+            <line x1="130" y1="100" x2="100" y2="125" class="ahorcado-figura__parte" />
+          }
+          @if (errores() >= 4) {
+            <line x1="130" y1="100" x2="160" y2="125" class="ahorcado-figura__parte" />
+          }
+          @if (errores() >= 5) {
+            <line x1="130" y1="150" x2="105" y2="190" class="ahorcado-figura__parte" />
+          }
+          @if (errores() >= 6) {
+            <line x1="130" y1="150" x2="155" y2="190" class="ahorcado-figura__parte" />
+          }
+        </svg>
       </div>
 
       <p class="ahorcado-palabra text-center fw-bold mb-4" aria-live="polite">{{ palabraMostrada() }}</p>
@@ -53,6 +84,16 @@
           </p>
           <p class="ahorcado-resultado__palabra mb-0">
             La palabra era <strong>{{ palabraSecreta() }}</strong>
+          </p>
+          <p class="ahorcado-resultado__puntaje mb-0 mt-2">
+            <i class="bi bi-trophy-fill me-1" aria-hidden="true"></i>
+            Puntaje: <strong>{{ puntaje() }}</strong>
+          </p>
+          <p class="ahorcado-resultado__stats mb-0 mt-2">
+            <i class="bi bi-stopwatch me-1" aria-hidden="true"></i>
+            Tiempo: <strong>{{ tiempoFormateado() }}</strong>
+            <span class="mx-2" aria-hidden="true">·</span>
+            Letras usadas: <strong>{{ letrasUsadas().size }}</strong>
           </p>
           @if (guardando()) {
             <p class="ahorcado-resultado__extra mb-0 mt-2">
