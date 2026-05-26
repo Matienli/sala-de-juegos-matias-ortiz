@@ -82,10 +82,114 @@ body {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.page-enter {
+  animation: pageEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-shell > * {
+  will-change: opacity, transform;
+}
+
+.stagger-in > * {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.stagger-in > *:nth-child(1)  { animation-delay: 0.04s; }
+.stagger-in > *:nth-child(2)  { animation-delay: 0.10s; }
+.stagger-in > *:nth-child(3)  { animation-delay: 0.16s; }
+.stagger-in > *:nth-child(4)  { animation-delay: 0.22s; }
+.stagger-in > *:nth-child(5)  { animation-delay: 0.28s; }
+.stagger-in > *:nth-child(6)  { animation-delay: 0.34s; }
+.stagger-in > *:nth-child(7)  { animation-delay: 0.40s; }
+.stagger-in > *:nth-child(8)  { animation-delay: 0.46s; }
+.stagger-in > *:nth-child(n+9) { animation-delay: 0.52s; }
+
+.btn {
+  transition: transform 0.12s ease, box-shadow 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease, color 0.18s ease;
+}
+
+.btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.btn:not(:disabled):active {
+  transform: translateY(0);
+}
+
+.modal.fade .modal-dialog {
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+}
+
+.modal.show .modal-content {
+  animation: scaleIn 0.25s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .stagger-in > *,
+  .modal.show .modal-content {
+    animation: none !important;
+  }
+
+  .btn,
+  .modal.fade .modal-dialog {
+    transition: none !important;
   }
 }

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { Layout } from './components/layout/layout';
+import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
 import { guestGuard } from './guards/guest.guard';
 import { Home } from './pages/home/home';
@@ -60,6 +61,19 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/listados/chat-sala/chat-sala').then((m) => m.ChatSala),
         canActivate: [authGuard],
+      },
+      {
+        path: 'encuesta',
+        loadComponent: () => import('./pages/encuesta/encuesta').then((m) => m.Encuesta),
+        canActivate: [authGuard],
+      },
+      {
+        path: 'listados/encuestas',
+        loadComponent: () =>
+          import('./pages/listados/encuestas-listado/encuestas-listado').then(
+            (m) => m.EncuestasListado,
+          ),
+        canActivate: [adminGuard],
       },
     ],
   },

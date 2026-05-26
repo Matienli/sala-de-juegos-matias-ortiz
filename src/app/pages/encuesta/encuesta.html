@@ -1,0 +1,188 @@
+<section class="page-enter col-xl-9 mx-auto encuesta">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+      <a class="btn btn-link ps-0 text-decoration-none enc-back" routerLink="/">
+        <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+      </a>
+      <h1 class="h3 fw-bold mb-0">Encuesta</h1>
+      <p class="text-body-secondary small mb-0">
+        Contanos tu opinión sobre la sala de juegos. Todos los campos son requeridos.
+      </p>
+    </div>
+    @if (auth.user(); as u) {
+      <span class="badge enc-user-badge border">
+        <i class="bi bi-person me-1"></i>{{ u.username }}
+      </span>
+    }
+  </div>
+
+  <form class="card enc-panel border-0 shadow-sm" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="card-body p-4">
+      <h2 class="h5 fw-bold mb-3">Datos personales</h2>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label" for="encNombre">Nombre</label>
+          <input
+            id="encNombre"
+            type="text"
+            class="form-control"
+            formControlName="nombre"
+            autocomplete="given-name"
+            [readonly]="enviando()"
+          />
+          @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+            <div class="invalid-feedback d-block">Ingresá al menos 2 caracteres.</div>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="encApellido">Apellido</label>
+          <input
+            id="encApellido"
+            type="text"
+            class="form-control"
+            formControlName="apellido"
+            autocomplete="family-name"
+            [readonly]="enviando()"
+          />
+          @if (form.controls.apellido.touched && form.controls.apellido.invalid) {
+            <div class="invalid-feedback d-block">Ingresá al menos 2 caracteres.</div>
+          }
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <label class="form-label" for="encEdad">Edad</label>
+          <input
+            id="encEdad"
+            type="number"
+            class="form-control input-no-spinner"
+            formControlName="edad"
+            min="18"
+            max="99"
+            inputmode="numeric"
+            [readonly]="enviando()"
+          />
+          @if (form.controls.edad.touched && form.controls.edad.invalid) {
+            <div class="invalid-feedback d-block">Edad entre 18 y 99 años.</div>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="encTelefono">Teléfono</label>
+          <input
+            id="encTelefono"
+            type="tel"
+            class="form-control"
+            formControlName="telefono"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            [readonly]="enviando()"
+          />
+          <div class="form-text">{{ telefonoAyuda }}</div>
+          @if (form.controls.telefono.touched && form.controls.telefono.invalid) {
+            @if (form.controls.telefono.errors?.['required']) {
+              <div class="invalid-feedback d-block">Ingresá un teléfono.</div>
+            } @else if (form.controls.telefono.errors?.['soloNumeros']) {
+              <div class="invalid-feedback d-block">Solo se permiten números.</div>
+            } @else if (form.controls.telefono.errors?.['maxlength']) {
+              <div class="invalid-feedback d-block">No más de 10 dígitos.</div>
+            }
+          }
+        </div>
+      </div>
+
+      <hr class="enc-divisor" />
+
+      <h2 class="h5 fw-bold mb-3">Sobre la sala</h2>
+
+      <div class="mb-4">
+        <p class="form-label mb-2">1. ¿Cuál es tu juego favorito?</p>
+        <div class="enc-opciones-radio" role="radiogroup" aria-label="Juego favorito">
+          @for (op of juegosOpciones; track op.valor) {
+            <label class="form-check enc-radio">
+              <input
+                type="radio"
+                class="form-check-input"
+                formControlName="juegoFavorito"
+                [value]="op.valor"
+              />
+              <span class="form-check-label">{{ op.etiqueta }}</span>
+            </label>
+          }
+        </div>
+        @if (form.controls.juegoFavorito.touched && form.controls.juegoFavorito.invalid) {
+          <div class="invalid-feedback d-block">Elegí un juego.</div>
+        }
+      </div>
+
+      <div class="mb-4">
+        <p class="form-label mb-2">2. ¿Qué te gustó? (marcá al menos una opción)</p>
+        <div class="enc-opciones-check" formArrayName="cosasQueGustaron">
+          @for (op of cosasOpciones; track op.valor; let i = $index) {
+            <label class="form-check enc-check">
+              <input type="checkbox" class="form-check-input" [formControlName]="i" />
+              <span class="form-check-label">{{ op.etiqueta }}</span>
+            </label>
+          }
+        </div>
+        @if (cosasArray.touched && cosasArray.invalid) {
+          <div class="invalid-feedback d-block">Marcá al menos una opción.</div>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label" for="encRecomendacion">
+          3. ¿Recomendarías la sala a otra persona?
+        </label>
+        <select
+          id="encRecomendacion"
+          class="form-select"
+          formControlName="recomendacion"
+          [attr.disabled]="enviando() ? '' : null"
+        >
+          <option value="" disabled>Elegí una opción</option>
+          @for (op of recomendacionOpciones; track op.valor) {
+            <option [value]="op.valor">{{ op.etiqueta }}</option>
+          }
+        </select>
+        @if (form.controls.recomendacion.touched && form.controls.recomendacion.invalid) {
+          <div class="invalid-feedback d-block">Elegí una opción.</div>
+        }
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label" for="encComentario">4. Comentario o sugerencia</label>
+        <textarea
+          id="encComentario"
+          class="form-control"
+          rows="3"
+          formControlName="comentario"
+          maxlength="500"
+          [readonly]="enviando()"
+        ></textarea>
+        @if (form.controls.comentario.touched && form.controls.comentario.invalid) {
+          <div class="invalid-feedback d-block">Escribí al menos 5 caracteres.</div>
+        }
+      </div>
+
+      <div class="d-flex flex-wrap gap-2 justify-content-end">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="enviando()">
+          @if (enviando()) {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          }
+          Enviar encuesta
+        </button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<app-message-modal
+  [open]="modalOpen()"
+  [title]="modalTitle()"
+  [body]="modalBody()"
+  [variant]="modalVariant()"
+  (closed)="closeModal()"
+/>

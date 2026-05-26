@@ -19,10 +19,12 @@ export interface SignUpPayload {
 export class AuthService {
   private readonly client: SupabaseClient | null;
   private readonly userSignal = signal<AuthUser | null>(null);
+  private readonly isAdminSignal = signal(false);
   private readonly sessionReady: Promise<void>;
 
   readonly user = this.userSignal.asReadonly();
   readonly isLoggedIn = computed(() => this.userSignal() !== null);
+  readonly isAdmin = this.isAdminSignal.asReadonly();
 
   constructor() {
     const url = environment.supabaseUrl?.trim() ?? '';
@@ -38,7 +40,9 @@ export class AuthService {
       });
       this.sessionReady = this.syncSessionFromSupabase();
       this.client.auth.onAuthStateChange((_event, session) => {
-        this.userSignal.set(session?.user ? this.mapSupabaseUser(session.user) : null);
+        const next = session?.user ? this.mapSupabaseUser(session.user) : null;
+        this.userSignal.set(next);
+        void this.refreshAdminFlag();
       });
     } else {
       this.client = null;
@@ -63,6 +67,7 @@ export class AuthService {
     }
     if (data.user) {
       this.userSignal.set(this.mapSupabaseUser(data.user));
+      await this.refreshAdminFlag();
     }
     return { error: null };
   }
@@ -117,6 +122,7 @@ export class AuthService {
       await this.client.auth.signOut();
     }
     this.userSignal.set(null);
+    this.isAdminSignal.set(false);
   }
 
   private async syncSessionFromSupabase(): Promise<void> {
@@ -126,6 +132,25 @@ export class AuthService {
     const { data } = await this.client.auth.getSession();
     const u = data.session?.user;
     this.userSignal.set(u ? this.mapSupabaseUser(u) : null);
+    await this.refreshAdminFlag();
+  }
+
+  private async refreshAdminFlag(): Promise<void> {
+    if (!this.client) {
+      this.isAdminSignal.set(false);
+      return;
+    }
+    const userId = this.userSignal()?.id;
+    if (!userId) {
+      this.isAdminSignal.set(false);
+      return;
+    }
+    const { data, error } = await this.client
+      .from('admins')
+      .select('user_id')
+      .eq('user_id', userId)
+      .maybeSingle();
+    this.isAdminSignal.set(!error && !!data);
   }
 
   private mapSupabaseUser(user: User): AuthUser {

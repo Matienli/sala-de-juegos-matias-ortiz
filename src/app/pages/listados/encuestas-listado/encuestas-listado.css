@@ -1,0 +1,48 @@
+.enc-list-back {
+  --bs-btn-color: var(--brand-accent);
+}
+
+.enc-list-admin-badge {
+  background: var(--brand-accent);
+  color: #fff;
+  border-color: var(--brand-accent-hover) !important;
+}
+
+.enc-list-estado {
+  padding: 2rem;
+  color: var(--brand-header);
+  font-weight: 600;
+}
+
+.enc-list-card {
+  background-color: #d1d1d1;
+  border: 2px solid #000 !important;
+}
+
+.enc-list-edad {
+  background: var(--brand-header);
+  color: #fff;
+}
+
+.enc-list-dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 0.75rem;
+  row-gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.enc-list-dl dt {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.enc-list-dl dd {
+  margin: 0;
+  color: #333;
+}
+
+.enc-list-comentario {
+  white-space: pre-line;
+  font-style: italic;
+}
