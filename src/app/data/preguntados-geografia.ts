@@ -1,4 +1,4 @@
-/** Países con nombre y capital en español (para combinar con REST Countries por código ISO). */
+/** Países con nombre y capital en español. */
 export const GEOGRAFIA_ES: Record<string, { nombre: string; capital: string }> = {
   AR: { nombre: 'Argentina', capital: 'Buenos Aires' },
   BO: { nombre: 'Bolivia', capital: 'La Paz' },

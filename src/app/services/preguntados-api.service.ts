@@ -5,10 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { GEOGRAFIA_ES } from '../data/preguntados-geografia';
 import type { OpcionPreguntados, PreguntaPreguntados } from '../models/pregunta-preguntados.model';
 
-/**
- * REST Countries — listada en https://github.com/public-apis/public-apis (Geography → REST Countries).
- * Se cruzan los datos de la API con nombres y capitales en español definidos en `preguntados-geografia.ts`.
- */
+
 const API_URL = 'https://restcountries.com/v3.1/all';
 
 interface RestCountry {
