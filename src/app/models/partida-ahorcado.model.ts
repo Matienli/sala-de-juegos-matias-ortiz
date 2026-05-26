@@ -7,6 +7,7 @@ export interface PartidaAhorcado {
   tiempo_segundos: number;
   cantidad_letras_seleccionadas: number;
   intentos_fallidos: number;
+  puntaje: number | null;
   finalizado_en: string;
   created_at: string;
 }
@@ -19,4 +20,5 @@ export interface PartidaAhorcadoInsert {
   tiempo_segundos: number;
   cantidad_letras_seleccionadas: number;
   intentos_fallidos: number;
+  puntaje: number;
 }

@@ -39,10 +39,17 @@
       } @else if (partidaTerminada()) {
         <div class="pg-resultado" role="status">
           <p class="pg-resultado__titulo mb-2">
-            <i class="bi bi-flag-fill me-2" aria-hidden="true"></i>Partida terminada
+            @if (perdioPorVidas()) {
+              Te quedaste sin vidas
+            } @else {
+              <i class="bi bi-flag-fill me-2" aria-hidden="true"></i>Partida terminada
+            }
           </p>
           <p class="pg-resultado__puntaje mb-1">
             Acertaste <strong>{{ aciertos() }}</strong> de <strong>{{ totalPreguntas() }}</strong>
+          </p>
+          <p class="pg-resultado__puntaje mb-1">
+            Errores: <strong>{{ errores() }}/{{ vidasIniciales }}</strong>
           </p>
           @if (guardando()) {
             <p class="pg-resultado__extra mb-0">
@@ -59,6 +66,9 @@
       } @else if (preguntaActual(); as pregunta) {
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
           <p class="mb-0 small text-body-secondary">{{ progresoTexto() }}</p>
+          <p class="mb-0 small text-body-secondary pg-errores" aria-live="polite">
+            Errores: <strong>{{ errores() }}/{{ vidasIniciales }}</strong>
+          </p>
           <p class="mb-0 small text-body-secondary">
             Aciertos: <strong>{{ aciertos() }}</strong>
           </p>

@@ -6,7 +6,7 @@
       </a>
       <h1 class="h3 fw-bold mb-0">Resultados</h1>
       <p class="text-body-secondary small mb-0">
-        Mejor partida de cada jugador, ordenada de mejor a peor desempeño.
+        Todas las partidas registradas, ordenadas de mejor a peor desempeño.
       </p>
     </div>
     <div class="d-flex flex-wrap align-items-center gap-2">
@@ -40,6 +40,7 @@
                   <tr>
                     <th>#</th>
                     <th>Jugador</th>
+                    <th>Puntaje</th>
                     <th>Resultado</th>
                     <th>Errores</th>
                     <th>Tiempo</th>
@@ -48,13 +49,14 @@
                 <tbody>
                   @if (ahorcado().length === 0) {
                     <tr>
-                      <td colspan="5" class="text-center text-body-secondary py-3">Sin partidas</td>
+                      <td colspan="6" class="text-center text-body-secondary py-3">Sin partidas</td>
                     </tr>
                   } @else {
                     @for (fila of ahorcado(); track fila.id; let i = $index) {
                       <tr>
                         <td>{{ i + 1 }}</td>
                         <td>{{ fila.nombre_usuario }}</td>
+                        <td><strong>{{ fila.puntaje ?? 0 }}</strong></td>
                         <td>
                           @if (fila.gano) {
                             <span class="badge text-bg-success">Ganó</span>

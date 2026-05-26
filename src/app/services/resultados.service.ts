@@ -48,58 +48,24 @@ export class ResultadosService {
 
     return {
       data: {
-        ahorcado: ordenarAhorcado(mejorAhorcadoPorJugador((ahorcadoRes.data ?? []) as PartidaAhorcado[])),
-        mayorMenor: ordenarMayorMenor(
-          mejorMayorMenorPorJugador((mayorMenorRes.data ?? []) as PartidaMayorMenor[]),
-        ),
-        preguntados: ordenarPreguntados(
-          mejorPreguntadosPorJugador((preguntadosRes.data ?? []) as PartidaPreguntados[]),
-        ),
-        clickRapido: ordenarClickRapido(
-          mejorClickRapidoPorJugador((clickRapidoRes.data ?? []) as PartidaClickRapido[]),
-        ),
+        ahorcado: ordenarAhorcado((ahorcadoRes.data ?? []) as PartidaAhorcado[]),
+        mayorMenor: ordenarMayorMenor((mayorMenorRes.data ?? []) as PartidaMayorMenor[]),
+        preguntados: ordenarPreguntados((preguntadosRes.data ?? []) as PartidaPreguntados[]),
+        clickRapido: ordenarClickRapido((clickRapidoRes.data ?? []) as PartidaClickRapido[]),
       },
       error: null,
     };
   }
 }
 
-function mejorAhorcadoPorJugador(partidas: PartidaAhorcado[]): PartidaAhorcado[] {
-  return elegirMejorPorJugador(partidas, compararAhorcado);
-}
-
-function mejorMayorMenorPorJugador(partidas: PartidaMayorMenor[]): PartidaMayorMenor[] {
-  return elegirMejorPorJugador(partidas, compararMayorMenor);
-}
-
-function mejorPreguntadosPorJugador(partidas: PartidaPreguntados[]): PartidaPreguntados[] {
-  return elegirMejorPorJugador(partidas, compararPreguntados);
-}
-
-function mejorClickRapidoPorJugador(partidas: PartidaClickRapido[]): PartidaClickRapido[] {
-  return elegirMejorPorJugador(partidas, compararClickRapido);
-}
-
-function elegirMejorPorJugador<T extends { user_id: string }>(
-  partidas: T[],
-  comparar: (a: T, b: T) => number,
-): T[] {
-  const mejores = new Map<string, T>();
-  for (const partida of partidas) {
-    const actual = mejores.get(partida.user_id);
-    if (!actual || comparar(partida, actual) < 0) {
-      mejores.set(partida.user_id, partida);
-    }
-  }
-  return [...mejores.values()];
-}
-
 function compararAhorcado(a: PartidaAhorcado, b: PartidaAhorcado): number {
+  const puntajeA = a.puntaje ?? 0;
+  const puntajeB = b.puntaje ?? 0;
+  if (puntajeA !== puntajeB) {
+    return puntajeB - puntajeA;
+  }
   if (a.gano !== b.gano) {
     return a.gano ? -1 : 1;
-  }
-  if (a.intentos_fallidos !== b.intentos_fallidos) {
-    return a.intentos_fallidos - b.intentos_fallidos;
   }
   return a.tiempo_segundos - b.tiempo_segundos;
 }

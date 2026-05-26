@@ -10,6 +10,8 @@ import { AuthService } from '../../../services/auth';
 
 type Prediccion = 'mayor' | 'menor';
 
+const VIDAS_INICIALES = 3;
+
 @Component({
   selector: 'app-mayor-o-menor',
   imports: [RouterLink, NaipeCarta, MessageModal],
@@ -30,6 +32,8 @@ export class MayorOMenor implements OnInit {
   readonly cartaRevelada = signal<Naipe | null>(null);
   readonly aciertos = signal(0);
   readonly intentos = signal(0);
+  readonly vidas = signal(VIDAS_INICIALES);
+  readonly vidasIniciales = VIDAS_INICIALES;
   readonly partidaTerminada = signal(false);
   readonly gano = signal(false);
   readonly guardando = signal(false);
@@ -44,6 +48,8 @@ export class MayorOMenor implements OnInit {
   readonly juegoActivo = computed(
     () => !this.partidaTerminada() && !this.revelando() && this.cartaActual() !== null,
   );
+
+  readonly errores = computed(() => this.vidasIniciales - this.vidas());
 
   ngOnInit(): void {
     this.nuevaPartida();
@@ -61,6 +67,7 @@ export class MayorOMenor implements OnInit {
     this.revelando.set(false);
     this.aciertos.set(0);
     this.intentos.set(0);
+    this.vidas.set(VIDAS_INICIALES);
     this.partidaTerminada.set(false);
     this.gano.set(false);
     this.partidaGuardada.set(false);
@@ -83,12 +90,26 @@ export class MayorOMenor implements OnInit {
     }
 
     const siguiente = this.baraja[this.indice + 1];
-    this.intentos.update((n) => n + 1);
     this.revelando.set(true);
     this.cartaRevelada.set(siguiente);
 
+    if (siguiente.valor === actual.valor) {
+      this.indice += 1;
+      this.revelacionTimer = window.setTimeout(() => {
+        this.revelacionTimer = null;
+        this.cartaActual.set(siguiente);
+        this.cartaRevelada.set(null);
+        this.revelando.set(false);
+        if (this.indice >= this.baraja.length - 1) {
+          void this.finalizarPartida(true, 'Completaste toda la baraja.');
+        }
+      }, 1400);
+      return;
+    }
+
+    this.intentos.update((n) => n + 1);
+
     const acerto =
-      siguiente.valor === actual.valor ||
       (prediccion === 'mayor' && siguiente.valor > actual.valor) ||
       (prediccion === 'menor' && siguiente.valor < actual.valor);
 
@@ -107,8 +128,30 @@ export class MayorOMenor implements OnInit {
       return;
     }
 
-    const detalle = `Elegiste ${prediccion === 'mayor' ? 'mayor' : 'menor'} y la siguiente carta no lo cumplió.`;
-    void this.finalizarPartida(false, detalle);
+    this.vidas.update((v) => Math.max(0, v - 1));
+    const vidasRestantes = this.vidas();
+    this.indice += 1;
+
+    if (vidasRestantes <= 0) {
+      this.revelacionTimer = window.setTimeout(() => {
+        this.revelacionTimer = null;
+        this.cartaActual.set(siguiente);
+        this.cartaRevelada.set(null);
+        this.revelando.set(false);
+        void this.finalizarPartida(false, 'Te quedaste sin vidas.');
+      }, 1400);
+      return;
+    }
+
+    this.revelacionTimer = window.setTimeout(() => {
+      this.revelacionTimer = null;
+      this.cartaActual.set(siguiente);
+      this.cartaRevelada.set(null);
+      this.revelando.set(false);
+      if (this.indice >= this.baraja.length - 1) {
+        void this.finalizarPartida(true, 'Completaste toda la baraja.');
+      }
+    }, 1400);
   }
 
   bloquearTeclado(event: KeyboardEvent): void {

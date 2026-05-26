@@ -10,6 +10,7 @@ import { AuthService } from '../../../services/auth';
 
 const PREGUNTAS_POR_PARTIDA = 10;
 const PAUSA_ENTRE_PREGUNTAS_MS = 1400;
+const VIDAS_INICIALES = 2;
 
 @Component({
   selector: 'app-preguntados',
@@ -37,6 +38,11 @@ export class Preguntados implements OnInit {
   readonly opcionElegida = signal<string | null>(null);
   readonly guardando = signal(false);
   readonly partidaGuardada = signal(false);
+  readonly vidas = signal(VIDAS_INICIALES);
+  readonly vidasIniciales = VIDAS_INICIALES;
+  readonly perdioPorVidas = signal(false);
+
+  readonly errores = computed(() => this.vidasIniciales - this.vidas());
 
   readonly modalOpen = signal(false);
   readonly modalTitle = signal('');
@@ -69,6 +75,8 @@ export class Preguntados implements OnInit {
     this.opcionElegida.set(null);
     this.partidaGuardada.set(false);
     this.partidaPersistida = false;
+    this.vidas.set(VIDAS_INICIALES);
+    this.perdioPorVidas.set(false);
 
     const { preguntas, error } = await this.api.obtenerPreguntas(PREGUNTAS_POR_PARTIDA);
     this.cargando.set(false);
@@ -93,12 +101,23 @@ export class Preguntados implements OnInit {
     this.opcionElegida.set(opcion.texto);
     if (opcion.correcta) {
       this.aciertos.update((n) => n + 1);
+    } else {
+      this.vidas.update((v) => Math.max(0, v - 1));
     }
+
+    const sinVidas = this.vidas() <= 0;
 
     this.avanceTimer = window.setTimeout(() => {
       this.avanceTimer = null;
       this.opcionElegida.set(null);
       this.respondiendo.set(false);
+
+      if (sinVidas) {
+        this.perdioPorVidas.set(true);
+        void this.finalizarPartida();
+        return;
+      }
+
       this.indice += 1;
 
       if (this.indice >= this.preguntas.length) {
