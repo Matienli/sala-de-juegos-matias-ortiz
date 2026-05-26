@@ -46,7 +46,7 @@
 
       @if (auth.isLoggedIn()) {
         <h2 class="h5 fw-bold mb-3">Juegos</h2>
-        <div class="row row-cols-1 row-cols-sm-2 g-3 mb-4">
+        <div class="row row-cols-1 row-cols-sm-2 g-3 mb-4 stagger-in">
           <div class="col">
             <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/juegos/ahorcado">
               <div class="card-body">
@@ -93,7 +93,7 @@
           </div>
         </div>
         <h2 class="h5 fw-bold mb-3">Listados</h2>
-        <div class="row row-cols-1 row-cols-sm-2 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 g-3 stagger-in">
           <div class="col">
             <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/listados/resultados">
               <div class="card-body">
@@ -116,6 +116,30 @@
               </div>
             </a>
           </div>
+          <div class="col">
+            <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/encuesta">
+              <div class="card-body">
+                <span class="tile-icon tile-icon--muted d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                  <i class="bi bi-ui-checks-grid"></i>
+                </span>
+                <h3 class="h6 fw-bold mb-1">Encuesta</h3>
+                <p class="small text-body-secondary mb-0">Tu opinión sobre la sala</p>
+              </div>
+            </a>
+          </div>
+          @if (auth.isAdmin()) {
+            <div class="col">
+              <a class="text-decoration-none game-tile card h-100 border-0 shadow-sm" routerLink="/listados/encuestas">
+                <div class="card-body">
+                  <span class="tile-icon tile-icon--muted d-inline-flex rounded-3 align-items-center justify-content-center mb-2">
+                    <i class="bi bi-clipboard-data"></i>
+                  </span>
+                  <h3 class="h6 fw-bold mb-1">Encuestas (admin)</h3>
+                  <p class="small text-body-secondary mb-0">Respuestas recibidas</p>
+                </div>
+              </a>
+            </div>
+          }
         </div>
       }
     </div>

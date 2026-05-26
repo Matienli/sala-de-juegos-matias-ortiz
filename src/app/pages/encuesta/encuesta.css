@@ -1,0 +1,87 @@
+.enc-back {
+  --bs-btn-color: var(--brand-accent);
+}
+
+.enc-user-badge {
+  background: var(--brand-accent);
+  color: #fff;
+  border-color: var(--brand-accent-hover) !important;
+}
+
+.enc-panel {
+  background-color: var(--brand-header);
+  color: #fff;
+}
+
+.enc-panel .form-label {
+  color: #fff;
+  font-weight: 600;
+}
+
+.enc-panel .form-control,
+.enc-panel .form-select {
+  background-color: #d1d1d1;
+  border-color: #bdbdbd;
+  color: #1a1a1a;
+}
+
+.enc-panel .form-control:focus,
+.enc-panel .form-select:focus {
+  background-color: #d1d1d1;
+  border-color: #a8a8a8;
+  box-shadow: 0 0 0 0.25rem rgba(209, 209, 209, 0.55);
+}
+
+.enc-panel .form-select option {
+  background-color: var(--page-bg);
+  color: #1a1a1a;
+}
+
+.enc-panel .form-select option:checked,
+.enc-panel .form-select option:hover,
+.enc-panel .form-select option:focus {
+  background-color: var(--brand-accent);
+  color: #fff;
+  box-shadow: 0 0 10px 100px var(--brand-accent) inset;
+}
+
+.enc-panel .form-text {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.enc-divisor {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.enc-opciones-radio,
+.enc-opciones-check {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+
+.enc-radio,
+.enc-check {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.enc-radio .form-check-label,
+.enc-check .form-check-label {
+  color: #fff;
+  font-weight: 500;
+}
+
+.input-no-spinner::-webkit-outer-spin-button,
+.input-no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-no-spinner {
+  -moz-appearance: textfield;
+}
