@@ -25,7 +25,7 @@ export class ClickRapidoPartidasService {
     });
 
     if (error) {
-      return { error: 'No se pudo guardar la partida. Ejecutá supabase/partidas_click_rapido.sql en Supabase.' };
+      return { error: 'No se pudo guardar la partida.' };
     }
     return { error: null };
   }

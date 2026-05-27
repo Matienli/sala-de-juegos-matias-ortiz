@@ -59,13 +59,13 @@ export class ResultadosService {
 }
 
 function compararAhorcado(a: PartidaAhorcado, b: PartidaAhorcado): number {
+  if (a.gano !== b.gano) {
+    return a.gano ? -1 : 1;
+  }
   const puntajeA = a.puntaje ?? 0;
   const puntajeB = b.puntaje ?? 0;
   if (puntajeA !== puntajeB) {
     return puntajeB - puntajeA;
-  }
-  if (a.gano !== b.gano) {
-    return a.gano ? -1 : 1;
   }
   return a.tiempo_segundos - b.tiempo_segundos;
 }
